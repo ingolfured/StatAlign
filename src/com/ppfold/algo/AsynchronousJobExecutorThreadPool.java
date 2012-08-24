@@ -1,5 +1,6 @@
 package com.ppfold.algo;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -66,7 +67,7 @@ public class AsynchronousJobExecutorThreadPool extends AsynchronousJobExecutor {
 			}
 		});
 	}
-	
+
 	@Override
 	public void startExecution(final PhyloJobFuzzy job, final JobListener listener) {
 		threadPool.execute(new Runnable() {
@@ -99,7 +100,7 @@ public class AsynchronousJobExecutorThreadPool extends AsynchronousJobExecutor {
 	public boolean isTerminated() {
 		return this.threadPool.isTerminated();
 	}
-	
+
 	// @Override
 	// public AsynchronousJobExecutor createJobExecutor(AlgoParameters param) {
 	// //we don't have state

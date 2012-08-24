@@ -11,20 +11,20 @@ public abstract class AsynchronousJobExecutor {
 	public abstract void startExecution(CYKJob cYKJob, JobListener listener);
 
 	public abstract void startExecution(PhyloJob job, JobListener listener);
-	
+
 	public abstract void startExecution(PhyloJobFuzzy job, JobListener listener);
 
 	public abstract String getDescription();
 
 	public abstract String getId();
-	
+
 	//This will tell the Executor that all threads should stop 
 	public abstract void shutDown();
-	
+
 	//Returns true when all the jobs are terminated.
 	public abstract boolean isTerminated();
-	
-	
+
+
 	// Use this to get the actual instance based on a param instance
 	// public abstract AsynchronousJobExecutor createJobExecutor(AlgoParameters
 	// param);
@@ -54,7 +54,7 @@ public abstract class AsynchronousJobExecutor {
 		remoteExecutor = remote;
 	}
 
-	
+
 	public static AsynchronousJobExecutor getLocalExecutor() {
 		return localExecutor;
 	}
@@ -67,12 +67,12 @@ public abstract class AsynchronousJobExecutor {
 		return localExecutor;
 	}
 
-	
+
 	public static AsynchronousJobExecutor getRemoteExecutor() {
 		return remoteExecutor;
 	}
-	
-	
-	
+
+
+
 
 }

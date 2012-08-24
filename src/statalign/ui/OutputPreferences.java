@@ -37,11 +37,11 @@ public class OutputPreferences extends JDialog implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private final static Color BORDER_COLOR = Color.LIGHT_GRAY;
-	
+
 	MainFrame owner;
-	
+
 	/**
 	 * Creates the window for setting the I/O preferences.
 	 * 
@@ -74,11 +74,23 @@ public class OutputPreferences extends JDialog implements ActionListener{
 				return o1.getTabOrder()-o2.getTabOrder() < 0 ? -1 : 1;
 			}
 		};
-		for(Postprocess p : postprocess){
-			if(p.outputable){
-				list.add(p);
+
+		if(owner.manager.postProcMan.rnaMode) {
+			for(Postprocess p : postprocess){
+				if(p.outputable){
+					list.add(p);
+				}
 			}
 		}
+
+		else {
+			for(Postprocess p : postprocess) {
+				if(p.outputable && !p.rnaAssociated) {
+					list.add(p);
+				}
+			}
+		}
+
 		Collections.sort(list, comp);
 		JPanel logListPanel = new JPanel(new GridLayout(list.size(),1));
 		logListPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5,5,5,5),
@@ -87,7 +99,7 @@ public class OutputPreferences extends JDialog implements ActionListener{
 				/*BorderFactory.createLineBorder(Color.GRAY, 1)*/));
 
 		leftPanel.add(logListPanel,"Center");
-		JCheckBox[] logCheckBoxes = new JCheckBox[postprocess.length];
+		JCheckBox[] logCheckBoxes = new JCheckBox[list.size()];
 		int k = 0;
 		for(Postprocess p : list) {
 			logCheckBoxes[k] = new JCheckBox(p.getTabName(),p.sampling);
@@ -100,11 +112,23 @@ public class OutputPreferences extends JDialog implements ActionListener{
 	//	leftPanel.add(postprocessPanel);
 	//	postprocessPanel.add(new JLabel("Select entries that generates postprocess files"),"North");
 		list.clear();
-		for(Postprocess p : postprocess){
-			if(p.postprocessable){
-				list.add(p);
+
+		if(owner.manager.postProcMan.rnaMode) {
+			for(Postprocess p : postprocess){
+				if(p.postprocessable){
+					list.add(p);
+				}
 			}
 		}
+
+		else {
+			for(Postprocess p : postprocess) {
+				if(p.postprocessable && !p.rnaAssociated) {
+					list.add(p);
+				}
+			}
+		}
+
 		Collections.sort(list, comp);
 		JPanel postprocessListPanel = new JPanel(new GridLayout(list.size(),1));
 		postprocessListPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5,5,5,5),
@@ -113,7 +137,7 @@ public class OutputPreferences extends JDialog implements ActionListener{
 				/*BorderFactory.createLineBorder(Color.GRAY, 1)*/));
 
 		leftPanel.add(postprocessListPanel);
-		JCheckBox[] postprocessCheckBoxes = new JCheckBox[postprocess.length];
+		JCheckBox[] postprocessCheckBoxes = new JCheckBox[list.size()];
 		k = 0;
 		for(Postprocess p : list) {
 			postprocessCheckBoxes[k] = new JCheckBox(p.getTabName()+" ",p.postprocessWrite);
@@ -138,19 +162,19 @@ public class OutputPreferences extends JDialog implements ActionListener{
 			alignmentCheckBox[i].addActionListener(this);
 			alignmentTypePanel.add(alignmentCheckBox[i]);
 		}
-		
+
 		//close button
 		JPanel buttonPanel = new JPanel(new BorderLayout());
 		JButton bClose = new JButton("Close");
 		bClose.addActionListener(this);
 		buttonPanel.add(bClose,"East");
-		
+
 		rightPanel.add(buttonPanel,"South");
-		
+
 		setTitle("Output Preferences");
 		this.setBounds(owner.getX()+owner.getWidth()/10, owner.getY(), owner.getWidth()*4/5, owner.getHeight()*4/5);
 		setVisible(true);
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -182,11 +206,11 @@ public class OutputPreferences extends JDialog implements ActionListener{
 			else{
 				dispose();
 			}
-			
+
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		
+
 	}
 
 }

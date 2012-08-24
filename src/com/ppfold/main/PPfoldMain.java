@@ -470,7 +470,7 @@ public class PPfoldMain implements Runnable {
 		result.finalmatrix = finalmatrix;
 		return result;
 	}
-	
+
 	public static ResultBundle foldFuzzyAlignment(Progress progress, FuzzyAlignment fuzzyAlignment, Tree tree, 
 			Parameters param, List<ExtraData> extradata, boolean useExpectedFrequencies) throws  InterruptedException, Exception{
 		fuzzyAlignment.useExpectedFrequencies = useExpectedFrequencies;
@@ -480,8 +480,8 @@ public class PPfoldMain implements Runnable {
 
 		List<char[]> columns = new ArrayList<char[]>();
 		List<FuzzyNucleotide[]> fuzzyColumns = new ArrayList<FuzzyNucleotide[]>();
-		
-		
+
+
 		//each element represents a *column* of the alignment
 
 		List<char[]> fullcolumns = new ArrayList<char[]>();
@@ -489,7 +489,7 @@ public class PPfoldMain implements Runnable {
 
 		int nrseq = fuzzyAlignment.getNumSequences();
 
-		
+
 		//FuzzyNucleotide[] thiscolumn = new FuzzyNucleotide[nrseq];
 		char[] thiscolumn = new char[nrseq]; 
 		FuzzyNucleotide[] thisFuzzyColumn = new FuzzyNucleotide[nrseq]; 
@@ -498,7 +498,7 @@ public class PPfoldMain implements Runnable {
 		float[][] finalmatrix = new float[fuzzyAlignment.sequences.get(0).length()][fuzzyAlignment.sequences.get(0).length()];
 		float[][] finalexp = new float[fuzzyAlignment.sequences.get(0).length()][fuzzyAlignment.sequences.get(0).length()];
 		List<Integer> leftoutcolumns = new ArrayList<Integer>(); 
-	
+
 
 		if(!entropycalc||entropyString==null||(entropyString!=null&&entropyString.trim().equals(""))){
 			for(int i = 0; i < fuzzyAlignment.length ; i++){
@@ -596,7 +596,7 @@ public class PPfoldMain implements Runnable {
 		if(tree==null){
 			try {				
 				//System.out.println("Creating tree by neighbour joining... ");
-				
+
 				System.out.println("activity="+(activity == null));
 				System.out.println("columns_int="+(columns_int == null));
 				System.out.println("param="+(param == null));
@@ -723,7 +723,7 @@ public class PPfoldMain implements Runnable {
 	public boolean success() {
 		return this.success;
 	}
-	
+
 	public static void setfoldingfinished(boolean set){
 		shouldstop = set;
 	}

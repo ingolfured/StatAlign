@@ -41,7 +41,7 @@ public class Mapping {
 				gappedToUngapped[i] = x;
 			}
 		}
-		
+
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
 			if(gappedToUngapped[i] != -1 && ungappedToGapped[gappedToUngapped[i]] == -1)
@@ -49,7 +49,7 @@ public class Mapping {
 				ungappedToGapped[gappedToUngapped[i]] = i;
 			}
 		}
-		
+
 		/*
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
@@ -60,7 +60,7 @@ public class Mapping {
 		{	
 			System.out.println(i + " -> " + ungappedToGapped[i]);
 		}*/
-		
+
 		float [][] projectedMatrix = new float[projectedLength][projectedLength];
 		for(int i = 0 ; i < matrix.length ; i++)
 		{
@@ -72,7 +72,7 @@ public class Mapping {
 				}
 			}
 		}
-		
+
 		/*
 		
 		// renormalize
@@ -106,10 +106,10 @@ public class Mapping {
 			}
 		}
 		*/
-		
+
 		return projectedMatrix;
 	}
-	
+
     /**
      * Given an aligned sequence of length n from an alignment of length n and a n*n matrix corresponding to the alignment. This method removes gaps from the sequence to generate a sequence of length m, where m <= n and projects the specified n*n matrix
      * onto a matrix of size m*m.
@@ -133,7 +133,7 @@ public class Mapping {
 				gappedToUngapped[i] = x;
 			}
 		}
-		
+
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
 			if(gappedToUngapped[i] != -1 && ungappedToGapped[gappedToUngapped[i]] == -1)
@@ -141,7 +141,7 @@ public class Mapping {
 				ungappedToGapped[gappedToUngapped[i]] = i;
 			}
 		}
-		
+
 		/*
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
@@ -152,7 +152,7 @@ public class Mapping {
 		{	
 			System.out.println(i + " -> " + ungappedToGapped[i]);
 		}*/
-		
+
 		float [][] projectedMatrix = new float[projectedLength][projectedLength];
 		for(int i = 0 ; i < projectedMatrix.length ; i++)
 		{
@@ -164,10 +164,10 @@ public class Mapping {
 				}
 			}
 		}
-		
+
 		return projectedMatrix;
 	}
-	
+
 	 public static float [] projectarray (String alignedSequence, float [] array, char gapChar)
 	 {		
 		String ungappedSequence = alignedSequence.replaceAll("-", "");
@@ -184,7 +184,7 @@ public class Mapping {
 				gappedToUngapped[i] = x;
 			}
 		}
-		
+
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
 			if(gappedToUngapped[i] != -1 && ungappedToGapped[gappedToUngapped[i]] == -1)
@@ -192,7 +192,7 @@ public class Mapping {
 				ungappedToGapped[gappedToUngapped[i]] = i;
 			}
 		}
-		
+
 		/*
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
@@ -203,7 +203,7 @@ public class Mapping {
 		{	
 			System.out.println(i + " -> " + ungappedToGapped[i]);
 		}*/
-		
+
 		float [] projectedArray = new float[projectedLength];
 		for(int i = 0 ; i < array.length ; i++)
 		{
@@ -212,10 +212,10 @@ public class Mapping {
 				projectedArray[gappedToUngapped[i]] = array[i];
 			}
 		}
-		
+
 		return projectedArray;
 	}
-	 
+
 	 public static String projectSequence2 (String alignedSequence, String sequenceFromAlignment, char gapChar)
 	 {		
 		String ungappedSequence = alignedSequence.replaceAll(gapChar+"", "");
@@ -256,7 +256,7 @@ public class Mapping {
 		{
 			gaps += "-";
 		}
-		
+
 		StringBuffer projectedSequence = new StringBuffer(gaps);
 		int k = 0;
 		for(int i = 0 ; i < sequenceFromAlignment.length() ; i++)
@@ -266,12 +266,12 @@ public class Mapping {
 				projectedSequence.setCharAt(k, sequenceFromAlignment.charAt(i));
 				k++;
 			}
-			
+
 		}
-		
+
 		return projectedSequence.toString();
 	}
-	 
+
 	 public static String projectSequence (String alignedSequence, String sequenceFromAlignment, char gapChar)
 	 {		
 		String ungappedSequence = alignedSequence.replaceAll(gapChar+"", "");
@@ -288,7 +288,7 @@ public class Mapping {
 				gappedToUngapped[i] = x;
 			}
 		}
-		
+
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
 			if(gappedToUngapped[i] != -1 && ungappedToGapped[gappedToUngapped[i]] == -1)
@@ -296,7 +296,7 @@ public class Mapping {
 				ungappedToGapped[gappedToUngapped[i]] = i;
 			}
 		}
-		
+
 		/*
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
@@ -312,7 +312,7 @@ public class Mapping {
 		{
 			gaps += "-";
 		}
-		
+
 		StringBuffer projectedSequence = new StringBuffer(gaps);
 		int k = 0;
 		for(int i = 0 ; i < sequenceFromAlignment.length() ; i++)
@@ -323,12 +323,12 @@ public class Mapping {
 				projectedSequence.setCharAt(gappedToUngapped[i], sequenceFromAlignment.charAt(i));
 				//k++;
 			}
-			
+
 		}
-		
+
 		return projectedSequence.toString();
 	}
-	
+
 	public static float [] projectArray2 (String alignedSequence, float [] array, char gapChar)
 	{		
 		String ungappedSequence = alignedSequence.replaceAll("-", "");
@@ -345,7 +345,7 @@ public class Mapping {
 				gappedToUngapped[i] = x;
 			}
 		}
-		
+
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
 			if(gappedToUngapped[i] != -1 && ungappedToGapped[gappedToUngapped[i]] == -1)
@@ -353,7 +353,7 @@ public class Mapping {
 				ungappedToGapped[gappedToUngapped[i]] = i;
 			}
 		}
-		
+
 		/*
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
@@ -364,7 +364,7 @@ public class Mapping {
 		{	
 			System.out.println(i + " -> " + ungappedToGapped[i]);
 		}*/
-		
+
 		float [] projectedArray = new float[projectedLength];
 		for(int i = 0 ; i < projectedArray.length ; i++)
 		{
@@ -373,12 +373,12 @@ public class Mapping {
 					projectedArray[i] = array[ungappedToGapped[i]];
 				}
 		}
-		
+
 		return projectedArray;
 	}
-	
 
-	
+
+
 	public static int [] getUngappedToGappedMapping(String alignedSequence)
 	{
 		String ungappedSequence = alignedSequence.replaceAll("-", "");
@@ -395,7 +395,7 @@ public class Mapping {
 				gappedToUngapped[i] = x;
 			}
 		}
-		
+
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
 			if(gappedToUngapped[i] != -1 && ungappedToGapped[gappedToUngapped[i]] == -1)
@@ -403,11 +403,11 @@ public class Mapping {
 				ungappedToGapped[gappedToUngapped[i]] = i;
 			}
 		}
-		
-		
+
+
 		return ungappedToGapped;
 	}
-	
+
 	public static int [] getGappedToUngappedMapping(String alignedSequence)
 	{
 		String ungappedSequence = alignedSequence.replaceAll("-", "");
@@ -424,7 +424,7 @@ public class Mapping {
 				gappedToUngapped[i] = x;
 			}
 		}
-		
+
 		for(int i = 0 ; i < gappedToUngapped.length ; i++)
 		{	
 			if(gappedToUngapped[i] != -1 && ungappedToGapped[gappedToUngapped[i]] == -1)
@@ -432,8 +432,8 @@ public class Mapping {
 				ungappedToGapped[gappedToUngapped[i]] = i;
 			}
 		}
-		
-		
+
+
 		return gappedToUngapped;
 	}
 }

@@ -2,7 +2,6 @@ package com.ppfold.algo;
 
 import java.io.Serializable;
 
-import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
 
 /**
  * Contains matrices for storing inside, outside, expectation variables, and
@@ -143,7 +142,7 @@ public class ResMatrix implements Serializable {
 				matrixString += fraction[s][t]	+ "E" + exponent[s][t] + "\t";
 			}
 			matrixString += "\n";
-			
+
 		}
 		return matrixString;
 	}

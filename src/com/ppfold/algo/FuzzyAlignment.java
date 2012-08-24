@@ -4,15 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import statalign.distance.Distance;
 import statalign.postprocess.utils.Mapping;
 
 public class FuzzyAlignment implements Serializable {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5984201565048925527L;
-	
+
 	public int length;
 	public List<String> sequences;
 	public List<String> names;
@@ -20,12 +21,12 @@ public class FuzzyAlignment implements Serializable {
 	public List<FuzzyNucleotide[]> columns;
 	public List<Integer> mapping;
 	public boolean useExpectedFrequencies = true;
-	
+
 	public int getNumSequences()
 	{
 		return sequences.size();
 	}
-	
+
 	public static FuzzyAlignment getFuzzyAlignment(List<AlignmentData> alignments)
 	{
 		FuzzyAlignment fuzzyAlignment = new FuzzyAlignment();
@@ -33,7 +34,7 @@ public class FuzzyAlignment implements Serializable {
 		fuzzyAlignment.names = alignments.get(0).names;
 		fuzzyAlignment.length = alignments.get(0).sequences.get(0).length();
 		fuzzyAlignment.alignments = alignments;
-		
+
 		int numSequences = alignments.get(0).sequences.size();
 		double numAlignmentsDouble = (double) alignments.size();
 		int length = alignments.get(0).sequences.get(0).length();
@@ -47,7 +48,7 @@ public class FuzzyAlignment implements Serializable {
 			}
 			fuzzyAlignment.columns.add(fuzzyNucleotide);
 		}
-		
+
 		for(int al = 0 ; al < alignments.size() ; al++)
 		{
 			AlignmentData a = alignments.get(al);
@@ -64,11 +65,11 @@ public class FuzzyAlignment implements Serializable {
 				}
 			}
 		}
-		
+
 		//System.out.println(fuzzyAlignment.length+" fuzzy\n"+fuzzyAlignment+"\n");
 		return fuzzyAlignment;
 	}
-	
+
 	/*
 	public static double[] createSVector2(final char nt) {
 		final double[] vector = MatrixTools.createVector(4, 0.01); //uncertainty in nucleotide
@@ -102,7 +103,7 @@ public class FuzzyAlignment implements Serializable {
 		}
 		return vector;
 	}*/
-	
+
 	public static FuzzyAlignment getFuzzyAlignmentAndProject(List<AlignmentData> alignments, int seqno)
 	{
 		ArrayList<AlignmentData> projectedAlignments = new ArrayList<AlignmentData>();
@@ -110,10 +111,10 @@ public class FuzzyAlignment implements Serializable {
 		{
 			projectedAlignments.add(projectAlignment(alignments.get(i), seqno));			
 		}
-		
+
 		return getFuzzyAlignment(projectedAlignments);
 	}
-	
+
 	public static FuzzyAlignment getFuzzyAlignmentAndProject(List<AlignmentData> alignments, String refSeqName)
 	{
 		ArrayList<AlignmentData> projectedAlignments = new ArrayList<AlignmentData>();
@@ -121,10 +122,10 @@ public class FuzzyAlignment implements Serializable {
 		{
 			projectedAlignments.add(projectAlignment(alignments.get(i), refSeqName));			
 		}
-		
+
 		return getFuzzyAlignment(projectedAlignments);
 	}
-	
+
 	public static AlignmentData projectAlignment(AlignmentData input, int seqno)
 	{
 		AlignmentData projectedAlignment = new AlignmentData();
@@ -137,7 +138,7 @@ public class FuzzyAlignment implements Serializable {
 		}
 		return projectedAlignment;
 	}
-	
+
 	public static AlignmentData projectAlignment(AlignmentData input, String refSeqName)
 	{
 		int seqno = input.names.indexOf(refSeqName);
@@ -148,7 +149,7 @@ public class FuzzyAlignment implements Serializable {
 		seqno = Math.max(seqno, 0);
 		return projectAlignment(input, seqno);
 	}
-	
+
 	public String toString()
 	{
 		String ret = "";
@@ -173,20 +174,20 @@ public class FuzzyAlignment implements Serializable {
 		a.names.add("a");
 		a.names.add("b");
 		a.names.add("c");
-		
+
 		AlignmentData b = new AlignmentData();
 		b.sequences.add("A-A");
 		b.sequences.add("AAT");
 		b.sequences.add("AAT");
-		
+
 		ArrayList<AlignmentData> alignments = new ArrayList<AlignmentData>();
 		alignments.add(a);
 		alignments.add(b);
-		
+
 		FuzzyAlignment fuzzy = getFuzzyAlignmentAndProject(alignments, 0);
 		System.out.println(fuzzy);
 	}
-	
+
 	public double [] getFrequencies(int colA, int row, boolean useMapping)
 	{
 		int col1 = colA;
@@ -195,10 +196,10 @@ public class FuzzyAlignment implements Serializable {
 			col1 = mapping.get(col1);
 			//System.out.println(colA + " ->" + col1);
 		}
-		
+
 		double [] frequencies = new double[4];
 		double numAlignments = (double) alignments.size();
-		
+
 		for(int i = 0 ; i < alignments.size() ; i++)
 		{
 			String seq1 = alignments.get(i).sequences.get(row);
@@ -210,12 +211,12 @@ public class FuzzyAlignment implements Serializable {
 		}
 		return normalize(frequencies);
 	}
-	
+
 	/*public static double [][] getFrequencyPairs(List<FuzzyNucleotide[]> columns1, List<FuzzyNucleotide[]> columns2)
 	{
 		
 	}*/
-	
+
 	public static double [] normalize(double [] vector)
 	{
 		double sum = 0;
@@ -223,23 +224,23 @@ public class FuzzyAlignment implements Serializable {
 		{
 			sum += vector[i];
 		}
-		
+
 		double [] array = new double[vector.length];
 		for(int i = 0 ; i < vector.length ; i++)
 		{
 			array[i] = vector[i] / sum;
 		}
-		
+
 		return array;
 	}
-	
-	
+
+
 	public double [][] getFrequencyPairs(int colA, int colB, int row, boolean useMapping)
 	{
-		
+
 		int col1 = colA;
 		int col2 = colB;
-		
+
 		if(useMapping)
 		{
 			col1 = mapping.get(col1);
@@ -248,7 +249,7 @@ public class FuzzyAlignment implements Serializable {
 		//System.out.println("a,b="+col1+","+col2);
 		double [][] nucleotidePairs = new double[4][4];
 		double numAlignments = (double) alignments.size();
-		
+
 		for(int i = 0 ; i < alignments.size() ; i++)
 		{
 			String seq1 = alignments.get(i).sequences.get(row);
@@ -256,7 +257,7 @@ public class FuzzyAlignment implements Serializable {
 			double [] ambiguities2 = normalize(MatrixTools.createSVector(seq1.charAt(col2)));
 			double [][] result = new double[4][4];
 			MatrixTools.multiplyVectorVector(ambiguities1, ambiguities2, result);
-			
+
 			for(int j = 0 ; j < 4 ; j++)
 			{
 				for(int k = 0 ; k < 4 ; k++)
@@ -265,10 +266,10 @@ public class FuzzyAlignment implements Serializable {
 				}
 			}
 		}
-		
+
 		return nucleotidePairs;
 	}
-	
+
 	public static double distance(FuzzyAlignment fz1, FuzzyAlignment fz2)
 	{
 		double distance = 0;
@@ -285,7 +286,16 @@ public class FuzzyAlignment implements Serializable {
 		}
 		return distance;
 	}
-	
+
+
+	public static double AMA(FuzzyAlignment fz1, FuzzyAlignment fz2){
+		int sum = 0;
+		for(int i = 0; i<fz1.getNumSequences(); ++i){
+			sum += fz1.sequences.get(i).length();
+		}
+		return 1 - FuzzyAlignment.distance(fz1, fz2)/ (double)( sum  );
+	}
+
 	public static double euclideanDistance(double [] v1, double [] v2)
 	{
 		double distance =0;
@@ -296,5 +306,3 @@ public class FuzzyAlignment implements Serializable {
 		return Math.sqrt(distance);
 	}
 }
-
-

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhyloJobFuzzy {
-	
+
 	FuzzyAlignment fuzzyAlignment;
-	
+
 	public PhyloJobFuzzy(FuzzyAlignment fuzzyAlignment)
 	{
 		this.fuzzyAlignment = fuzzyAlignment;
@@ -16,10 +16,10 @@ public class PhyloJobFuzzy {
 	 * 
 	 */
 	private static final long serialVersionUID = 3916558259505621364L;
-	
+
 	public List<FuzzyNucleotide[]> columns = new ArrayList<FuzzyNucleotide[]>(); // single pairs only
 	public List<FuzzyNucleotide[]> columns2 = new ArrayList<FuzzyNucleotide[]>(); // pairing columns
-	
+
 	public List<Integer> columnIndices = new ArrayList<Integer>(); // single pairs only
 	public List<Integer> columnIndices2 = new ArrayList<Integer>(); // pairing columns
 

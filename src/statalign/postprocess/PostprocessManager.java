@@ -19,32 +19,32 @@ import statalign.ui.ErrorMessage;
  *
  */
 public class PostprocessManager {
-	
+
 	/**
 	 * The recognized plugins are in this array
 	 */
 	public Postprocess[] plugins;
-	
+
 	/**
 	 * This is the Mcmc that is analyzed
 	 */
 	public Mcmc mcmc;
-	
+
 	/**
 	 * This is the log-file writer 
 	 */
 	public FileWriter logFile = null;
-	
+
 	/**
 	 * This is the Main manager that manages the MCMC run.
 	 */
 	public MainManager mainManager;
-	
+
 	/**
 	 * 
 	 */
-	public boolean rnaMode = false;
-	
+	public static boolean rnaMode = false;
+
 	/**
 	 * This constructor recognizes the plugins
 	 * @param mainManager The MainManager that manages the MCMC run.
@@ -81,7 +81,7 @@ public class PostprocessManager {
 			plugin.init();
 		}
 	}
-	
+
 	/**
 	 * Finds dependency problems. Adds working plugins in dependency order to workingPlugins.
 	 */
@@ -107,7 +107,7 @@ public class PostprocessManager {
 		workingPlugins.add(plugin);
 		return false;
 	}
-	
+
 	/**
 	 * This function invoked before the first sample.
 	 * It opens information chanels towards postrocessing plug-ins.
@@ -121,7 +121,7 @@ public class PostprocessManager {
 				plugin.beforeFirstSample(mainManager.inputData);
 			}
 		}
-		
+
 		else {
 			for(Postprocess plugin : plugins) {
 				if(!plugin.rnaAssociated) {
@@ -133,7 +133,7 @@ public class PostprocessManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * Calls the plug-ins at a new sample.
 	 * @param no The number of the current sample
@@ -145,7 +145,7 @@ public class PostprocessManager {
 				plugin.newSample(state, no, total);
 			}
 		}
-		
+
 		else {
 			for(Postprocess plugin : plugins) {
 				if(!plugin.rnaAssociated) {
@@ -154,7 +154,7 @@ public class PostprocessManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * Calls the plug-ins after an MCMC step.
 	 */
@@ -166,7 +166,7 @@ public class PostprocessManager {
 				//}
 			}
 		}
-		
+
 		else {
 			for(Postprocess plugin : plugins){
 				if(!plugin.rnaAssociated){
@@ -175,7 +175,7 @@ public class PostprocessManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * Calls the plug-ins after an MCMC step.
 	 */
@@ -188,7 +188,7 @@ public class PostprocessManager {
 				//}
 			}
 		}
-		
+
 		else {
 			for(Postprocess plugin : plugins){
 				if(!plugin.rnaAssociated){
@@ -197,7 +197,7 @@ public class PostprocessManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * It is called after the last sample of MCMC.
 	 * It calls plug-ins to finalize their postprocessing activities.
@@ -210,7 +210,7 @@ public class PostprocessManager {
 				}
 			}
 		}
-		
+
 		else {
 			for(Postprocess plugin : plugins){
 				if(!plugin.rnaAssociated) {
@@ -227,5 +227,7 @@ public class PostprocessManager {
 			new ErrorMessage(mainManager.frame, " "+e.getLocalizedMessage(), true);
 		}
 	}
-	
+
+
+
 }

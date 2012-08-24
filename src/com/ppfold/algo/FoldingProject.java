@@ -88,11 +88,11 @@ public class FoldingProject {
 			AsynchronousJobExecutor executor, boolean verbose, int execnr,
 			List <ExtraData> extradata_list, boolean diffbp, boolean entropycalc)
 			throws InterruptedException {
-		
+
 		if(columns.size()<2){
 			return ResultBundle.tinyBundle();
 		}
-		
+
 		double scfg_to_phylo_ratio = 0.095 * columns.size()
 				/ columns.get(0).length;
 		double phylopart = 0.95 / (scfg_to_phylo_ratio + 1);
@@ -107,14 +107,14 @@ public class FoldingProject {
 		// must happen before and after
 		act.setCurrentActivity("Applying evolutionary model");
 
-		
+
 		//long starttime = System.currentTimeMillis();
 		double[][] probmatrix = FoldingProject.createPhyloProb(act
 				.getChildProgress(phylopart), phylojobsnr, tree, columns,
 				names, columns.size(), param, executor, verbose, execnr);
 
 		//If there are extra data, multiply probmatrix with the relevant values
-		
+
 		double[][] probmatrix2 = null;
 		if(diffbp&&extradata_list!=null){
 			probmatrix2= new double[probmatrix.length][probmatrix[0].length];
@@ -124,7 +124,7 @@ public class FoldingProject {
 				}
 			}
 		}
-		
+
 		if(extradata_list!=null){
 			System.out.println("Number of auxiliary data items: " + extradata_list.size());
 			ArrayList<ForcedConstraints> fcList = new ArrayList<ForcedConstraints>();
@@ -145,7 +145,7 @@ public class FoldingProject {
 			}
 
 		}
-		
+
 		System.out.println("Processing all auxiliary data");
 		if(extradata_list!=null){
 			for(ExtraData extradata:extradata_list){
@@ -158,7 +158,7 @@ public class FoldingProject {
 				}
 			}
 		}
-		
+
 		if(diffbp&&extradata_list!=null){
 			//If inner and outer basepairs are distinguished
 			for(ExtraData extradata:extradata_list){
@@ -170,9 +170,9 @@ public class FoldingProject {
 					probmatrix2[i][i] *= extradata.getProbabilityGivenUnpaired(i);
 				}
 			}
-			
+
 		}
-		
+
 		//System.out.println("Time in phylogenetic part: " + (System.currentTimeMillis()-starttime));
 		// do not allow basepairs less than 4 nucleotides apart.
 		for (int i = 0; i < probmatrix.length; i++) {
@@ -185,7 +185,7 @@ public class FoldingProject {
 				}
 			}
 		}
-		
+
 		if(diffbp&&extradata_list!=null){
 			for (int i = 0; i < probmatrix2.length; i++) {
 				for (int j = 1; j < 4; j++) {
@@ -198,11 +198,11 @@ public class FoldingProject {
 				}
 			}
 		}
-		
+
 
 		System.out.println("Folding...");
 		act.setCurrentActivity("Applying grammar");
-		
+
 		//starttime = System.currentTimeMillis();
 		ResultBundle result = FoldingProject.calcSCFG(act
 				.getChildProgress(scfgpart), scfgjobsnr, param.getProb(),
@@ -214,18 +214,18 @@ public class FoldingProject {
 		return result;
 
 	}
-	
+
 	public static ResultBundle foldFuzzyAlignment(Progress act, int phylojobsnr,
 			int scfgjobsnr, Tree tree, List<FuzzyNucleotide[]> columns, FuzzyAlignment fuzzyAlignment,
 			List<String> names, Parameters param,
 			AsynchronousJobExecutor executor, boolean verbose, int execnr,
 			List <ExtraData> extradata_list, boolean diffbp, boolean entropycalc)
 			throws InterruptedException {
-		
+
 		if(columns.size()<2){
 			return ResultBundle.tinyBundle();
 		}
-		
+
 		double scfg_to_phylo_ratio = 0.095 * columns.size()
 				/ columns.get(0).length;
 		double phylopart = 0.95 / (scfg_to_phylo_ratio + 1);
@@ -240,14 +240,14 @@ public class FoldingProject {
 		// must happen before and after
 		act.setCurrentActivity("Applying evolutionary model");
 
-		
+
 		//long starttime = System.currentTimeMillis();
 		double[][] probmatrix = FoldingProject.createPhyloProbForFuzzyAlignment(act
 				.getChildProgress(phylopart), phylojobsnr, tree, columns, fuzzyAlignment,
 				names, columns.size(), param, executor, verbose, execnr);
 
 		//If there are extra data, multiply probmatrix with the relevant values
-		
+
 		double[][] probmatrix2 = null;
 		if(diffbp&&extradata_list!=null){
 			probmatrix2= new double[probmatrix.length][probmatrix[0].length];
@@ -257,7 +257,7 @@ public class FoldingProject {
 				}
 			}
 		}
-		
+
 		if(extradata_list!=null){
 			System.out.println("Number of auxiliary data items: " + extradata_list.size());
 			ArrayList<ForcedConstraints> fcList = new ArrayList<ForcedConstraints>();
@@ -278,7 +278,7 @@ public class FoldingProject {
 			}
 
 		}
-		
+
 		System.out.println("Processing all auxiliary data");
 		if(extradata_list!=null){
 			for(ExtraData extradata:extradata_list){
@@ -291,7 +291,7 @@ public class FoldingProject {
 				}
 			}
 		}
-		
+
 		if(diffbp&&extradata_list!=null){
 			//If inner and outer basepairs are distinguished
 			for(ExtraData extradata:extradata_list){
@@ -303,9 +303,9 @@ public class FoldingProject {
 					probmatrix2[i][i] *= extradata.getProbabilityGivenUnpaired(i);
 				}
 			}
-			
+
 		}
-		
+
 		//System.out.println("Time in phylogenetic part: " + (System.currentTimeMillis()-starttime));
 		// do not allow basepairs less than 4 nucleotides apart.
 		for (int i = 0; i < probmatrix.length; i++) {
@@ -318,7 +318,7 @@ public class FoldingProject {
 				}
 			}
 		}
-		
+
 		if(diffbp&&extradata_list!=null){
 			for (int i = 0; i < probmatrix2.length; i++) {
 				for (int j = 1; j < 4; j++) {
@@ -331,11 +331,11 @@ public class FoldingProject {
 				}
 			}
 		}
-		
+
 
 		System.out.println("Folding...");
 		act.setCurrentActivity("Applying grammar");
-		
+
 		//starttime = System.currentTimeMillis();
 		ResultBundle result = FoldingProject.calcSCFG(act
 				.getChildProgress(scfgpart), scfgjobsnr, param.getProb(),
@@ -347,7 +347,7 @@ public class FoldingProject {
 		return result;
 
 	}
-	
+
 	private static double[][] createPhyloProbForFuzzyAlignment(Progress act, int userjobsnr,
 			Tree tree, List<FuzzyNucleotide[]> columns_char, FuzzyAlignment fuzzyAlignment, List<String> names,
 			final int length, Parameters param,
@@ -372,8 +372,8 @@ public class FoldingProject {
 			act.setCurrentActivity("Evolutionary model: processing input");
 		}
 		List<FuzzyNucleotide[]> columns = new ArrayList<FuzzyNucleotide[]>();
-		
-		
+
+
 		/*
 		for (int i = 0; i < columns_char.size(); i++) {
 			columns.add(MatrixTools.convertColumn(columns_char.get(i)));
@@ -381,7 +381,7 @@ public class FoldingProject {
 		for (int i = 0; i < columns_char.size(); i++) {
 			columns.add(columns_char.get(i));
 		}
-		
+
 		if (verbose) {
 			System.out.println("User wish for number of divisions: " + userjobsnr);
 		}
@@ -560,7 +560,7 @@ public class FoldingProject {
 
 		act.setCurrentActivity("Evolutionary model: " +
 					"calculating column probabilities");
-		
+
 		long gridstarttime = System.nanoTime();
 		// execute single column jobs
 		Progress singleColAct = act.getChildProgress(0.1);
@@ -662,7 +662,7 @@ public class FoldingProject {
 
 		System.out.println("TOTAL TIME ELAPSED IN PHYLOGENETIC PART: "
 				+ (int)((System.nanoTime() - starttime) * 1e-9) + " seconds ");
-		
+
 		if(verbose){
 			System.out.println("                    ...of which distributed: "
 				+ (System.nanoTime() - gridstarttime) * 1e-9 + " seconds");
@@ -680,9 +680,9 @@ public class FoldingProject {
 			throws InterruptedException {
 		PointRes tmp = new PointRes(0, 0);
 		final long starttime = System.nanoTime();
-		
 
-		
+
+
 		double entropyVal = 0;
 		double entropyPercOfMax = 0;
 		double entropyMax = 0;
@@ -699,7 +699,7 @@ public class FoldingProject {
 		}
 
 		act.setCurrentActivity("Applying grammar: processing input");
-		
+
 
 		int length = probmatrix.length;
 
@@ -784,7 +784,7 @@ public class FoldingProject {
 				sectoro.setBasePairs(so, to, number);
 			}
 		}
-		
+
 		if(diffbp&&probmatrix2!=null){
 			//if differentiating inner and outerbasepairs, create a new bp matrix per sector
 			for (int i = 0; i < length; i++) {
@@ -797,8 +797,8 @@ public class FoldingProject {
 				}
 			}
 		}
-		
-		
+
+
 		if (verbose) {
 			System.out.println("Done. (time: "
 					+ (System.nanoTime() - starttime) * 1e-9 + " s)");
@@ -811,7 +811,7 @@ public class FoldingProject {
 
 
 		act.setCurrentActivity("Applying grammar: inside algorithm");
-		
+
 		if (verbose) {
 			System.out.println("Calculating inside values... ");
 		}
@@ -884,7 +884,7 @@ public class FoldingProject {
 		}
 
 		act.setCurrentActivity("Applying grammar: outside algorithm");
-		
+
 		if (verbose) {
 			System.out.println("Calculating outside values...");
 		}
@@ -911,7 +911,7 @@ public class FoldingProject {
 				sectoro.setBasePairs(so, to, number);
 			}
 		}
-		
+
 		if(diffbp){
 			for (int i = 0; i < length; i++) {
 				for (int j = 0; j < length - i; j++) {
@@ -929,7 +929,7 @@ public class FoldingProject {
 				}
 			}
 		}
-		
+
 		//final long outsidegridstarttime = System.nanoTime();
 		Progress outsideAct = act.getChildProgress(0.50);
 		while (master.unProcessedOutsideSectors()) {
@@ -1010,16 +1010,16 @@ public class FoldingProject {
 		PointRes EfS = new PointRes(0,0);
 		PointRes EfL = new PointRes(0,0);
 		PointRes EfF = new PointRes(0,0);
-		
+
 		PointRes topInsideS = new PointRes(0,0);
 		topInsideS.copyFrom(master.top.getInsideMatrixS().fetchProb(
 				distance - 1, length - 1 - master.top.pos[1], tmp));
-		
+
 		PointRes insideval = new PointRes(0,0);
 		PointRes outsideval = new PointRes(0,0);
-		
+
 		PointRes entropyLikelihood = new PointRes(0,0); 
-		
+
 		//MatrixTools.print(probmatrix);
 		// calculate basepair probabilities & basepair rule entropies
 		for (int i = 0; i < length; i++) {
@@ -1030,7 +1030,7 @@ public class FoldingProject {
 				int to = findPointST(i, j, sectoro, distance)[1];
 				int si = findPointST(i + 1, j - 2, sectori, distance)[0];
 				int ti = findPointST(i + 1, j - 2, sectori, distance)[1];
-				
+
 				//L->dFd
 				number.copyFrom(sectoro.getOutsideMatrixL().fetchProb(so, to,
 						tmp));
@@ -1043,7 +1043,7 @@ public class FoldingProject {
 				}
 				EfLdFd.add(number);
 				number.divide(topInsideS);
-				
+
 				//F->dFd
 				number2.copyFrom(sectoro.getOutsideMatrixF().fetchProb(so, to,
 						tmp));
@@ -1052,10 +1052,10 @@ public class FoldingProject {
 				number2.multiply(probmatrix[i][i+j]);
 				EfFdFd.add(number2);
 				number2.divide(topInsideS);
-				
+
 				//Sum of expectation of the two rules is expectation of basepairing rule
 				number.add(number2);
-				
+
 				sectoro.setBasePairs(so, to, number);
 				if(number.toFloat()>1){
 					if(verbose){
@@ -1069,15 +1069,15 @@ public class FoldingProject {
 					//System.out.println(i + ", " + (i+j) + " pair entropy: " + number);
 					entropyLikelihood.add(number);
 				}
-				
+
 				//System.out.print(number.toFloat() + " ");
 				//System.out.format("%16.8e", number.toDouble());
 			}
 		}
-		
-		
-		
-	
+
+
+
+
 		if (verbose) { 
 			System.out.println("Done. (time: "
 					+ (System.nanoTime() - starttime) * 1e-9 + " s)");
@@ -1149,7 +1149,7 @@ public class FoldingProject {
 							.getRuntime().freeMemory()) / 1048576) + " MB ");
 		}
 
-		
+
 		if(entropycalc){
 			for (int i = 0; i < length; i++) {
 				//Entropy for L->s
@@ -1162,12 +1162,12 @@ public class FoldingProject {
 				number.multiply(prob[1][1]);
 				//number.divide(topInsideS);
 				EfLs.add(number);
-				
+
 				for (int j = 0; j < length - i; j++) {
 					Sector sectoro = findSector(i, j, master.bottom);
 					int so = findPointST(i, j, sectoro, distance)[0];
 					int to = findPointST(i, j, sectoro, distance)[1];
-					
+
 					insideval.copyFrom(sectoro.getInsideMatrixS().fetchProb(so,to,tmp));
 					outsideval.copyFrom(sectoro.getOutsideMatrixS().fetchProb(so, to,tmp));
 					outsideval.multiply(insideval);
@@ -1180,7 +1180,7 @@ public class FoldingProject {
 					outsideval.copyFrom(sectoro.getOutsideMatrixF().fetchProb(so, to,tmp));
 					outsideval.multiply(insideval);
 					EfF.add(outsideval);
-					
+
 					insideval.copyFrom(sectoro.getInsideMatrixL().fetchProb(so,to,tmp));
 					outsideval.copyFrom(sectoro.getOutsideMatrixS().fetchProb(so, to,tmp));
 					outsideval.multiply(insideval);
@@ -1236,7 +1236,7 @@ public class FoldingProject {
 		EfSLS.subtract(EfSL,tmp);
 		EfFLS.copyFrom(EfF);
 		EfFLS.subtract(EfFdFd,tmp);
-		
+
 		EfS.divide(topInsideS);
 		EfL.divide(topInsideS);
 		EfF.divide(topInsideS);
@@ -1246,19 +1246,19 @@ public class FoldingProject {
 		EfLs.divide(topInsideS);
 		EfFLS.divide(topInsideS);
 		EfFdFd.divide(topInsideS);
-		
+
 		PointRes entropySLS = new PointRes(EfSLS);
 		PointRes entropySL = new PointRes(EfSL);
 		PointRes entropyLdFd = new PointRes(EfLdFd);
 		PointRes entropyLs = new PointRes(EfLs);
 		PointRes entropyFdFd = new PointRes(EfFdFd);
 		PointRes entropyFLS = new PointRes(EfFLS);
-			
+
 		if(verbose){
 		System.out.println("Expected nonterminal freq S = " + EfS.toDouble() );
 		System.out.println("Expected nonterminal freq L = " + EfL.toDouble() );
 		System.out.println("Expected nonterminal freq F = " + EfF.toDouble() );
-			
+
 		System.out.println("Expected rule freq S->LS = " + EfSLS.toDouble() );
 		System.out.println("Expected rule freq S->L = " + EfSL.toDouble() );
 		System.out.println("Expected rule freq L->dFd = " + EfLdFd.toDouble() );
@@ -1275,7 +1275,7 @@ public class FoldingProject {
 		EfFdFd.divide(EfF);
 		//EfFLS.divide(EfF);
 		EfFLS.setToDouble(1-EfFdFd.toDouble());
-		
+
 		if(verbose){
 		System.out.println("Reestimation prob S->LS = " + EfSLS.toDouble() );
 		System.out.println("Reestimation prob S->L = " + EfSL.toDouble() );
@@ -1290,14 +1290,14 @@ public class FoldingProject {
 		System.out.println("L: " + (float)( EfLdFd.toDouble() + EfLs.toDouble() ));
 		System.out.println("F: " + (float)( EfFdFd.toDouble() + EfFLS.toDouble() ));
 		*/
-				
+
 		entropySLS.multiply(new PointRes(log2(1/prob[0][0])));//.divide(LogTwo);
 		entropySL.multiply(new PointRes(log2(1/prob[0][1])));//.divide(LogTwo);
 		entropyLs.multiply(new PointRes(log2(1/prob[1][1])));//.divide(LogTwo);
 		entropyFLS.multiply(new PointRes(log2(1/prob[2][1])));//.divide(LogTwo);
 		entropyLdFd.multiply(new PointRes(log2(1/prob[1][0])));//.divide(LogTwo);
 		entropyFdFd.multiply(new PointRes(log2(1/prob[2][0])));//.divide(LogTwo);
-	
+
 		PointRes entropy = new PointRes(entropySLS);
 		entropy.add(entropySL);
 		entropy.add(entropyLdFd);
@@ -1314,24 +1314,24 @@ public class FoldingProject {
 		//System.out.println("Log top inside S + rule entropy: " + entropy);
 		if(verbose){System.out.println("Likelihood entropy component: " + entropyLikelihood);}
 		entropy.add(entropyLikelihood);
-		
+
 		System.out.println("ENTROPY: " + entropy + " = " + entropy.toDouble());
-		
-		
+
+
 		DecimalFormat df2 = new DecimalFormat( "#########0.00" );
 		double maxentropy_nr = 0.142- 1.5*Math.log(length)/Math.log(2) + 1.388*length;
 		double maxentropy = new Double(df2.format(maxentropy_nr)).doubleValue();
 		double percent_nr = (entropy.toDouble()/maxentropy_nr)*100;
 		double percent = new Double(df2.format(percent_nr)).doubleValue();
-		
+
 		entropyVal = entropy.toDouble();
 		entropyPercOfMax = percent;
 		entropyMax = maxentropy;
-		
+
 		System.out.println("(which is " + percent + "% of the maximum entropy, " + maxentropy + ")");
-		
+
 		}
-		
+
 		if (verbose) {
 			System.out.println("Cleaning memory...");
 		}
@@ -1356,7 +1356,7 @@ public class FoldingProject {
 					+ ((Runtime.getRuntime().totalMemory() - Runtime
 							.getRuntime().freeMemory()) / 1048576) + " MB ");
 		}		
-		
+
 		if (verbose) {
 			System.out.println("Calculating expectation values...");
 		}
@@ -1433,7 +1433,7 @@ public class FoldingProject {
 		}
 
 		act.setCurrentActivity("Applying grammar: backtracking");
-		
+
 
 		char[] structure = new char[length];
 		float[] reliability = new float[length];
@@ -1449,12 +1449,12 @@ public class FoldingProject {
 		PointRes thirdexpectationvalue = new PointRes(0, 0);
 		PointRes basepairvalue = new PointRes(0, 0);
 		PointRes tmp2 = new PointRes(0, 0);
-		
+
 		//int[] pairing = new int[length]; //this creates the pairing array
 		//for(int i = 0; i<length; i++){
 		//	pairing[i] = -1;
 		//}
-		
+
 		while (!checkPoint.isEmpty()) {
 			// Get the first element from the LinkedList.
 			int[] point = checkPoint.removeFirst();
@@ -1491,7 +1491,7 @@ public class FoldingProject {
 				structure[point[1]] = ')';
 				//pairing[point[0]] = point[1];
 				//pairing[point[1]] = point[0]; 
-				
+
 				reliability[point[0]] = basepairvalue.toFloat();
 				reliability[point[1]] = basepairvalue.toFloat();
 
@@ -1536,9 +1536,9 @@ public class FoldingProject {
 				}
 				continue;
 			}
-			
+
 		}
-		
+
 		//System.out.println();
 		//for(int i = 0; i<length; i++){
 		//	System.out.format("%08d", pairing[i]);
@@ -1559,7 +1559,7 @@ public class FoldingProject {
 		}
 
 		act.setCurrentActivity("Applying grammar: finalizing");
-		
+
 
 		// copy basepairs to square matrix
 		float[][] expectationvalues = new float[length][length];
@@ -1831,7 +1831,7 @@ public class FoldingProject {
 
 		act.setCurrentActivity("Evolutionary model: " +
 					"calculating column probabilities");
-		
+
 		long gridstarttime = System.nanoTime();
 		// execute single column jobs
 		Progress singleColAct = act.getChildProgress(0.1);
@@ -1933,7 +1933,7 @@ public class FoldingProject {
 
 		System.out.println("TOTAL TIME ELAPSED IN PHYLOGENETIC PART: "
 				+ (int)((System.nanoTime() - starttime) * 1e-9) + " seconds ");
-		
+
 		if(verbose){
 			System.out.println("                    ...of which distributed: "
 				+ (System.nanoTime() - gridstarttime) * 1e-9 + " seconds");
@@ -1985,7 +1985,7 @@ public class FoldingProject {
 		}
 		return answer;
 	}
-	
+
 	static double log2(double val){
 		return Math.log(val)/LOG_TWO;
 	}

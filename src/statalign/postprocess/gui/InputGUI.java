@@ -178,7 +178,9 @@ public class InputGUI extends JPanel implements ActionListener, ListSelectionLis
 		else if("Remove all".equals(e.getActionCommand())) {
 			manager.inputData.seqs.seqNames.clear();
 			manager.inputData.seqs.sequences.clear();
-			manager.deactivateRNA();
+			if(manager.inputData.seqs.isRNA()) {
+				manager.deactivateRNA();
+			}	
 			dlmSequences.clear();
 			jbDeleteAll.setEnabled(false);
 		}

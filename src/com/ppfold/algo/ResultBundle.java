@@ -43,7 +43,7 @@ public class ResultBundle implements Serializable {
 		tinyBundle.expectationvalues[0][0] = 1;
 		return tinyBundle;
 	}
-	
+
 	public char[] getStructure() {
 		return structure;
 	}
@@ -63,12 +63,12 @@ public class ResultBundle implements Serializable {
 	public float[] getReliability() {
 		return reliability;
 	}
-	
+
 	public float[][] getFinalMatrix()
 	{
 		return finalmatrix;
 	}
-	
+
 	public double getPPfoldReliability()
 	{
 		double sum = 0;
@@ -78,7 +78,7 @@ public class ResultBundle implements Serializable {
 		}
 		return sum / ((double)reliability.length);
 	}
-	
+
 	public double getPairsOnlyReliability()
 	{
 		double sum = 0;
@@ -97,7 +97,7 @@ public class ResultBundle implements Serializable {
 		}
 		return sum / pairs;
 	}
-	
+
 	public ResultBundle getSmallBundle()
 	{
 		ResultBundle smallBundle = new ResultBundle();

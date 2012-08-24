@@ -32,13 +32,13 @@ public class CommandLine {
 
 	/** Does this instance belong to a parallel run? */
 	private boolean isParallel;
-	
+
 	/** Specifies whether the instance should output info to the stdout. */ 
 	private boolean verbose;
-	
+
 	private List<String> substModNames = new ArrayList<String>();
 	private Map<String, Integer> postprocAbbr = new HashMap<String, Integer>();
-	
+
 	// Functions
 
 	/** 
@@ -72,7 +72,7 @@ public class CommandLine {
 				parsedArgs.add(args[i]);
 			}
 		}*/
-		
+
 		Options opt = new Options(args, Multiplicity.ZERO_OR_ONE, 1,
 				Integer.MAX_VALUE);
 		opt.addSet("run").addOption("subst", Separator.EQUALS)
@@ -233,21 +233,22 @@ public class CommandLine {
 					}
 				}
 			}
-			
+
 			OptionData plugins = set.getOption("plugin");
 			ArrayList<String> argsVector = new ArrayList<String>();
 			for(int i = 0 ; i < plugins.getResultCount() ; i++)
 			{
 				argsVector.add(plugins.getResultValue(i));
 			}
-			
-			
-			Postprocess[] pps = manager.postProcMan.plugins;
-			PluginParameters parameters = new PluginParameters(argsVector);
+
+
+			//Postprocess[] pps = manager.postProcMan.plugins;
+			Postprocess.pluginParameters = new PluginParameters(argsVector);
+			/*PluginParameters parameters = 
 			for(Postprocess pp : pps)
 			{
-				pp.pluginParameters = parameters;
-			}
+				
+			}*/
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -365,22 +366,22 @@ public class CommandLine {
 
 	private void fillPostprocAbbr(PostprocessManager man) {
 		Postprocess[] plugins = man.plugins;
-		
+
 		final String[] keys = new String[plugins.length];
 		Integer[] sorted = new Integer[plugins.length];
-		
+
 		for(int i = 0; i < plugins.length; i++) {
 			keys[i] = plugins[i].getTabName().toUpperCase().replace(' ', '_');
 			sorted[i] = i;
 		}
-			
+
 		Arrays.sort(sorted, new Comparator<Integer>() {
 			@Override
 			public int compare(Integer o1, Integer o2) {
 				return keys[o1].compareTo(keys[o2]);
 			}
 		});
-		
+
 		int prevOverlap = 0;
 		for(int i = 0; i < plugins.length; i++) {
 			int nextOverlap = 0;
@@ -390,7 +391,7 @@ public class CommandLine {
 			postprocAbbr.put(key, i);
 			prevOverlap = nextOverlap;
 		}
-		
+
 //		LinkedList<Integer> list = new LinkedList<Integer>();
 //		for (int i = 0; i < man.plugins.length; i++)
 //			list.add(i);

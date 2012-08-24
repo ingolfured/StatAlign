@@ -39,7 +39,7 @@ public abstract class TreeVisualizer extends Postprocess {
         // TODO: Plugin configuration
         screenable = true;
         hasToolBar = true;
-
+        rnaAssociated = false;
     }
     
     public void init(TreeView[] views) {
@@ -58,7 +58,7 @@ public abstract class TreeVisualizer extends Postprocess {
     @Override
     public void beforeFirstSample(InputData input) {
         super.beforeFirstSample(input);
-
+        System.out.println("Tree Visualizer Parent: " + mainPanel.getParent());
         if(show) {
         	Enumeration<AbstractButton> buttons = group.getElements();
         	while (buttons.hasMoreElements()) {

@@ -58,7 +58,7 @@ public class PhyloCalcFuzzy {
 		List<String> names = phyloJob.names;
 		int length = columns.size();
 		int width = columns2.size();
-		
+
 		double[][] result = new double[length][width];
 		double[][][] doublevectors = MatrixTools.createDoubleVectors();
 		tree.getRoot().resetChildrenVector(16, 1);
@@ -84,37 +84,26 @@ public class PhyloCalcFuzzy {
 					// now set the matrix of this Node.
 					// the vector of all other nodes will be [1 1 1 1] by
 					// default (Node constructor)
-					
+
 					double[] vector = node.getVector();
 					// ^for nucleotide column1[row]  and nucleotide column2[row]] at position row in column sets create a alphabet*alphabet*16 array, where the vector represents the pairs of nucleotide probabilities, i.e AA, AG, etc.
 					// makes a length 16 array, representing paired nucleotide combinations, AA, AC, AG, AT
-					double [][] frequencies = new double[column1[row].probability.length][column2[row].probability.length];
+					double [][] probabilities = new double[column1[row].probability.length][column2[row].probability.length];
 					if(phyloJob.fuzzyAlignment.useExpectedFrequencies)
 					{
-						// expected frequencies
-						MatrixTools.multiplyVectorVector(column1[row].probability, column2[row].probability, frequencies);
+						MatrixTools.multiplyVectorVector(column1[row].probability, column2[row].probability, probabilities);
 					}
 					else
 					{
-						// observed frequencies
-						frequencies =  phyloJob.fuzzyAlignment.getFrequencyPairs(phyloJob.fuzzyAlignment.mapping.get(phyloJob.columnIndices.get(col1)), phyloJob.fuzzyAlignment.mapping.get(phyloJob.columnIndices2.get(col2)), row, false);
+						probabilities =  phyloJob.fuzzyAlignment.getFrequencyPairs(phyloJob.columnIndices.get(col1), phyloJob.columnIndices2.get(col2), row, true);
 					}
-					String t1 =doubleArrayToString( column1[row].probability);
-					String t2 =doubleArrayToString( column2[row].probability);
-					//System.out.println("Fzysize"+phyloJob.fuzzyAlignment.columns.size()+"\t"+phyloJob.fuzzyAlignment.mapping.size());
-					//System.out.println("c1,"+phyloJob.columnIndices+"\tc2"+phyloJob.columnIndices2);
-					//System.out.println("d1,"+phyloJob.columnIndices.size()+"\td2"+phyloJob.columnIndices2.size());
-					//System.out.println("Fzysize"+);
-					String s1 = doubleArrayToString(phyloJob.fuzzyAlignment.columns.get(phyloJob.fuzzyAlignment.mapping.get(phyloJob.columnIndices.get(col1)))[row].probability);
-					String s2 = doubleArrayToString(phyloJob.fuzzyAlignment.columns.get(phyloJob.fuzzyAlignment.mapping.get(phyloJob.columnIndices2.get(col2)))[row].probability);
-					//System.out.println("+"+t1+"\t"+t2+"\t"+s1+"\t"+s2);
-										
+
 					//double [][] probabilities =  phyloJob.fuzzyAlignment.getFrequencyPairs(phyloJob.columnIndices.get(col1), phyloJob.columnIndices2.get(col2), row, true);
-					
-					
-					
+
+
+
 					double [] serializedProbabilities = new double[16];
-					MatrixTools.serializeMatrix(frequencies, serializedProbabilities);
+					MatrixTools.serializeMatrix(probabilities, serializedProbabilities);
 					/*DecimalFormat df = new DecimalFormat("0.000");
 					 * System.out.println(col1+ ", "+ col2+":");
 					for(int x = 0 ; x < serializedProbabilities.length ; x++)
@@ -122,7 +111,7 @@ public class PhyloCalcFuzzy {
 						System.out.print(df.format(x)+"   ");
 					}
 					System.out.println();*/
-					
+
 					//MatrixTools.copyFromTo(
 					//		doublevectors[column1[row]][column2[row]], vector);
 					MatrixTools.copyFromTo(serializedProbabilities, vector);
@@ -145,17 +134,5 @@ public class PhyloCalcFuzzy {
 			}
 		}
 		return result;
-	}
-	
-	static DecimalFormat df = new DecimalFormat("0.000");
-	public static String doubleArrayToString(double [] array)
-	{
-		String ret = "[";
-		for(int i = 0 ; i < array.length -1 ; i++)
-		{
-			ret += df.format(array[i])+", ";
-		}
-		ret += df.format(array[array.length-1]) + "]";
-		return ret;
 	}
 }

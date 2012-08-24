@@ -11,13 +11,16 @@ import java.awt.event.KeyListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import statalign.base.AutomateParameters;
 import statalign.base.MCMCPars;
+import statalign.base.AutomateParameters;
 
 /**
  * 
@@ -31,14 +34,17 @@ public class McmcSettingsDlg extends JDialog implements ActionListener, KeyListe
 
 	private MCMCPars pars;
 //	boolean toRun = false;
-	
+
 	private JTextField burnIn = new JTextField(10);
 	private JTextField cycles = new JTextField(10);
 	private JTextField sampRate = new JTextField(10);
 	private JTextField seed = new JTextField(10);
+	private JCheckBox automateStepRate = new JCheckBox("Automate (Slow)",true);
+	private JCheckBox automateNumberOfSamples = new JCheckBox("Automate (RNA only)",false);
+	private JCheckBox automateBurnIn = new JCheckBox("Automate",true);
 //	private JTextField outFile = new JTextField(15)
 	private MainFrame owner;
-	
+
 	McmcSettingsDlg(MainFrame owner) {
 		super(owner, "MCMC Parameters", true);
 		this.owner = owner;
@@ -48,22 +54,50 @@ public class McmcSettingsDlg extends JDialog implements ActionListener, KeyListe
 		cp.setLayout(new BorderLayout());
 		Box bigBox = Box.createVerticalBox();
 		JPanel pan = new JPanel();
-		GridLayout l = new GridLayout(5,2);
+		GridLayout l = new GridLayout(4,4);
 		l.setHgap(5);
 		l.setVgap(5);
 		pan.setLayout(l);
 		pan.add(new JLabel("Burn-in cycles:"));
 		burnIn.addKeyListener(this);
 		pan.add(burnIn);
-		pan.add(new JLabel("Cycles after burn-in:"));
+		burnIn.setEnabled(false);
+
+		//pan.add(new JLabel("Autometic"));
+		automateBurnIn.setActionCommand("burnin");
+		automateBurnIn.addKeyListener(this);
+		automateBurnIn.addActionListener(this);
+		pan.add(automateBurnIn);
+
+		pan.add(new JLabel("Cycles after burn-In:"));
 		cycles.addKeyListener(this);
 		pan.add(cycles);
+		cycles.setEnabled(true);
+
+		//pan.add(new JLabel("Autometic"));
+		automateNumberOfSamples.setActionCommand("numsam");
+		automateNumberOfSamples.addKeyListener(this);
+		automateNumberOfSamples.addActionListener(this);
+		pan.add(automateNumberOfSamples);
+
 		pan.add(new JLabel("Sampling rate:"));
 		sampRate.addKeyListener(this);
 		pan.add(sampRate);
+		sampRate.setEnabled(false);
+
+
+		//pan.add(new JLabel("Autometic"));
+		automateStepRate.setActionCommand("steprate");
+		automateStepRate.addKeyListener(this);
+		automateStepRate.addActionListener(this);
+		pan.add(automateStepRate);
+
 		pan.add(new JLabel("Seed:"));
 		seed.addKeyListener(this);
 		pan.add(seed);
+
+
+
 //		pan.add(new JLabel("Output file:"));
 //		pan.add(outFile);
 		bigBox.add(pan);
@@ -72,7 +106,7 @@ public class McmcSettingsDlg extends JDialog implements ActionListener, KeyListe
 		box.add(butt=new JButton("OK"));
 		butt.addActionListener(this);
 		getRootPane().setDefaultButton(butt);
-		box.add(Box.createHorizontalStrut(30));
+		box.add(Box.createHorizontalStrut(100));
 		box.add(butt=new JButton("Cancel"));
 		butt.addActionListener(this);
 		bigBox.add(box);
@@ -86,7 +120,7 @@ public class McmcSettingsDlg extends JDialog implements ActionListener, KeyListe
 //		bigBox.setMaximumSize(bigBox.getSize());
 //		setSize(getWidth()+30,getHeight()+30);
 	}
-	
+
 	void display(Component c) {
 		burnIn.setText(Integer.toString(pars.burnIn));
 		cycles.setText(Integer.toString(pars.cycles));
@@ -105,17 +139,50 @@ public class McmcSettingsDlg extends JDialog implements ActionListener, KeyListe
 	 * 
 	 */
 	public void actionPerformed(ActionEvent ev) {
+		if(ev.getActionCommand() == "numsam"){
+			if(automateNumberOfSamples.isSelected()){
+				cycles.setEnabled(false);
+			}
+			else{
+				cycles.setEnabled(true);
+			}
+		}
+		if(ev.getActionCommand() == "steprate"){
+			if(automateStepRate.isSelected()){
+				sampRate.setEnabled(false);
+			}
+			else{
+				sampRate.setEnabled(true);
+			}
+		}
+		if(ev.getActionCommand() == "burnin"){
+			if(automateBurnIn.isSelected()){
+				burnIn.setEnabled(false);
+			}
+			else{
+				burnIn.setEnabled(true);
+			}
+		}
+
 		try{
 			if(ev.getActionCommand() == "OK") {
 				pars.burnIn = Integer.parseInt(burnIn.getText());
 				pars.cycles = Integer.parseInt(cycles.getText());
 				pars.sampRate = Integer.parseInt(sampRate.getText());
 				pars.seed = Integer.parseInt(seed.getText());
+				AutomateParameters.setAutomateStepRate(automateStepRate.isSelected());
+				AutomateParameters.setAutomateNumberOfSamples(automateNumberOfSamples.isSelected());
+				AutomateParameters.setAutomateBurnIn(automateBurnIn.isSelected());
 //				sp.outFile = outFile.getText();
 //				toRun = true;
+				setVisible(false);
+			}
+			if(ev.getActionCommand() == "Cancel") {
+				setVisible(false);
 			}
 //				toRun = false;
-			setVisible(false);
+
+
 		}
 		catch(NumberFormatException e){
 			new ErrorMessage(owner,"Wrong format, "+e.getLocalizedMessage(),false);
@@ -130,5 +197,5 @@ public class McmcSettingsDlg extends JDialog implements ActionListener, KeyListe
 			setVisible(false);
 		}
 	}
-	
+
 }

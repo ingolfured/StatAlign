@@ -12,4 +12,18 @@ public class StoppedException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	
+	private String errorMessage;
+	
+	public StoppedException(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+	
+	public String getError() {
+		return errorMessage;
+	}
+	
+	public String getMessage() {
+		return "Cannot stop during the burn-in procedure!";
+	}
+	
 }

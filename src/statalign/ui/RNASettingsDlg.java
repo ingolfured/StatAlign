@@ -27,6 +27,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
@@ -49,20 +50,20 @@ import statalign.postprocess.utils.RNAalifold;
  */
 public class RNASettingsDlg extends JDialog implements ActionListener, ChangeListener, KeyListener {
 	private static final long serialVersionUID = 1L;
-	
+
 
 	JPanel rnaalifoldOptions = new JPanel();
 	JCheckBox useSamplingAndAveragingButton = new JCheckBox("Perform sampling and averaging prediction (PPfold).");
 	JCheckBox useSamplingAndAveragingRNAalifoldButton = new JCheckBox("Perform sampling and averaging prediction (RNAalifold).");
 	JCheckBox fuzzyNucleotidePredictionAndEntropy = new JCheckBox("Perform fuzzy alignment prediction (PPfold).");	
-	
+
 	private JFileChooser fileChooser = new JFileChooser();
 	private JTextField executableField = new JTextField("");
 	private JButton executableButton = new JButton("Browse");
-	
+
 	private SpinnerNumberModel temperatureModel = new SpinnerNumberModel(37.0, -273.0, 500.0, 1.0);
 	private JSpinner temperatureSpinner = new JSpinner(temperatureModel);
-	
+
 	JRadioButton linearButton = new JRadioButton("Linear");
 	JRadioButton circularButton = new JRadioButton("Circular");
 	//private JTextField cycles = new JTextField(10);	
@@ -71,7 +72,7 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 	private SpinnerNumberModel nonCompatibleModel = new SpinnerNumberModel(1.0, 0.0, 10000, 0.5);
 	private JSpinner nonCompatibleSpinner = new JSpinner(nonCompatibleModel);
 	private JFrame owner;
-	
+
 	public void saveOptions()
 	{
 		try
@@ -92,7 +93,7 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void loadOptions()
 	{
 		try
@@ -115,7 +116,7 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 
 		}	
 	}
-	
+
 	public void setEnabled(Container component, boolean enabled)
 	{
 		Component [] components = ((Container) component).getComponents();
@@ -133,8 +134,8 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 			}
 		}
 	}
-	
-	
+
+
 	RNASettingsDlg(JFrame owner) {
 		super(owner, "RNAalifold parameters", true);
 		this.owner = owner;
@@ -147,7 +148,7 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
 		rnaalifoldOptions.setLayout(l);
-		
+
 		JPanel optionsPanel = new JPanel();
 		GridLayout optionLayout = new GridLayout(3,1);
 		optionsPanel.setLayout(optionLayout);
@@ -167,13 +168,13 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 		//c.gridx = 0;
 		//c.gridy = 0;
 		cp.add(optionsPanel, BorderLayout.NORTH);
-		
+
 		c.gridx = 0;
 		c.gridy = 3;
 		c.insets = new Insets(2,2,2,10);
 		rnaalifoldOptions.add(new JLabel("RNAalifold path"), c);
 		c.insets = new Insets(2,2,2,2);		
-		
+
 		c.gridx = 1;
 		c.gridy = 3;
 		c.gridwidth = 2;
@@ -189,7 +190,7 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 		executableButton.addActionListener(this);
 		rnaalifoldOptions.add(executableButton, c);
 		//pan.add(executablePanel);		
-		
+
 
 		c.gridx = 0;
 		c.gridy = 4;
@@ -198,7 +199,7 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 		c.gridx = 1;
 		c.gridy = 4;
 		rnaalifoldOptions.add(temperatureSpinner, c);
-		
+
 
 		c.gridx = 0;
 		c.gridy = 5;
@@ -217,26 +218,26 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 		c.gridx = 1;
 		c.gridy = 5;
 		rnaalifoldOptions.add(conformationPanel, c);
-		
+
 		c.gridx = 0;
 		c.gridy = 6;
 		rnaalifoldOptions.add(new JLabel("Covariance term"), c);
 		c.gridx = 1;
 		c.gridy = 6;
 		rnaalifoldOptions.add(covarianceSpinner, c);
-		
+
 		c.gridx = 0;
 		c.gridy = 7;
 		rnaalifoldOptions.add(new JLabel("Non-compatible penalty"), c);
 		c.gridx = 1;
 		c.gridy = 7;
 		rnaalifoldOptions.add(nonCompatibleSpinner, c);
-		
-		
+
+
 		c.gridx = 0;
 		c.gridy = 8;
 		rnaalifoldOptions.add(new JPanel(), c);
-		
+
 //		pan.add(new JLabel("Output file:"));
 //		pan.add(outFile);
 		bigBox.add(rnaalifoldOptions);
@@ -257,10 +258,10 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 		addKeyListener(this);
 		pack();
 		loadOptions();
-		updateFoldingParameters();
+		updateFoldingParametersAndTest();
 		setEnabled(rnaalifoldOptions, useSamplingAndAveragingRNAalifoldButton.isSelected());
 	}
-	
+
 	void display(Component c) {
 //		outFile.setText(sp.outFile);
 		setLocationRelativeTo(c);
@@ -284,10 +285,9 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 					executableField.setText(fileChooser.getSelectedFile().getAbsolutePath());
 				}				
 			}			
-			if(ev.getActionCommand() == "OK") {				
-				updateFoldingParameters();
-				saveOptions();
-				//setVisible(false);
+			if(ev.getActionCommand() == "OK") {	
+
+				updateFoldingParametersAndTest();
 				this.dispose();
 			}
 			else
@@ -301,7 +301,27 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 			new ErrorMessage(owner,"Wrong format, "+e.getLocalizedMessage(),false);
 		}
 	}
-	
+
+	public void updateFoldingParametersAndTest()
+	{
+		boolean sel = useSamplingAndAveragingRNAalifoldButton.isSelected();
+		updateFoldingParameters();
+		if(sel)
+		{
+			boolean isWorking = RNAalifold.checkRNAalifold();
+			if(sel && !isWorking)
+			{
+				useSamplingAndAveragingRNAalifoldButton.setSelected(false);
+				JOptionPane.showMessageDialog(this,
+					    "Disabling RNAalifold folding, the executable does not appear to be working.\nCheck the path or download a newer version of RNAalifold.",
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);					
+			}
+		}
+		updateFoldingParameters();
+		saveOptions();
+	}
+
 	public static void main(String [] args)
 	{
 		JFrame main = new JFrame();
@@ -327,12 +347,12 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 		{
 			this.setEnabled(rnaalifoldOptions, useSamplingAndAveragingRNAalifoldButton.isSelected());
 		}
-		
+
 	}
-	
+
 	public void updateFoldingParameters()
 	{
-		
+
 		if(useSamplingAndAveragingButton.isSelected())
 		{
 			String ppfold = "";
@@ -342,7 +362,7 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 		{
 			Postprocess.pluginParameters.removeParameter("ppfold");
 		}
-		
+
 		if(useSamplingAndAveragingRNAalifoldButton.isSelected())
 		{
 			RNAalifold.executable = this.executableField.getText();
@@ -358,5 +378,5 @@ public class RNASettingsDlg extends JDialog implements ActionListener, ChangeLis
 			Postprocess.pluginParameters.removeParameter("rnaalifold");
 		}
 	}
-	
+
 }

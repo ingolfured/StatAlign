@@ -3,6 +3,7 @@ package statalign.io;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 /**
  * 
  * @author novak
@@ -15,23 +16,26 @@ public class RawSequences {
 	 * strings must be of equal length and the '-' character must represent the gaps.
 	 */
 	public ArrayList<String> sequences;
-	
+
 	/**
 	 * Dynamic array of sequence names. Any name can be null.
 	 */
 	public ArrayList<String> seqNames;
-	
+
 	/**
 	 * Sorted string of characters present in sequences. Must not contain the gap '-'.
 	 */
 	public String alphabet;
-	
+
+	public boolean isRNA;
+
+
 	public RawSequences() {
 		sequences = new ArrayList<String>();
 		seqNames = new ArrayList<String>();
 		alphabet = "";
 	}
-	
+
 	public boolean isAligned() {
 		int size;
 		if((size = sequences.size()) == 0)
@@ -42,7 +46,7 @@ public class RawSequences {
 				return false;
 		return true;
 	}
-	
+
 	public void add(RawSequences more) {
 		sequences.addAll(more.sequences);
 		seqNames.addAll(more.seqNames);
@@ -88,12 +92,31 @@ public class RawSequences {
 		}
 		seqNames = newNames;	
 	}
-	
+
 	/**
 	 * Returns the number of sequences.
 	 */
 	public int size() {
 		return seqNames.size();
+	}
+
+	/**
+	 * Tells whether or not the the sequences are RNA/DNA. The extra letters denote ambiguous nucleotides.
+	 * @return True if it is RNA, false otherwise
+	 */
+	public boolean isRNA() {
+		for(int i = 0; i < alphabet.length(); i++) {
+			char letter = alphabet.charAt(i);
+			if(!(letter == 'A' || letter == 'C' || letter == 'G' 
+				|| letter == 'U' || letter == 'T' || letter == 'W' 
+				|| letter == 'S' || letter == 'R' || letter == 'Y'
+				|| letter == 'K' || letter == 'M' || letter == 'D'
+				|| letter == 'D' || letter == 'V' || letter == 'H'
+				|| letter == 'B' || letter == 'X' || letter == 'N')) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public static void main(String[] args) throws IOException {

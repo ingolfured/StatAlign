@@ -32,17 +32,17 @@ public class State {
 	public int nn;
 	/** Number of leaves (input sequences) */
 	public int nl;
-	
+
 	/** Root node of the tree */
 	public int root;
-	
+
 	/** Tree representation: left descendant of each node (first nl are leaves), -1 for none */
 	public int[] left;
 	/** Tree representation: right descendant of each node (first nl are leaves), -1 for none */
 	public int[] right;
 	/** Tree representation: parent of each node (first nl are leaves), -1 for none */
 	public int[] parent;
-	
+
 	/** Edge length to parent, for each node (first nl are leaves) */
 	public double[] edgeLen;
 
@@ -53,52 +53,51 @@ public class State {
 	 * (to the right) has index i
 	 */
 	public int[][] align;
-	
+
 	/** Felsenstein likelihoods for each sequence and each character therein */
 	public double[][][] felsen;
 	/** All sequences as strings, including most likely ancestral characters */
 	public String[] seq;
 	/** Names of the leaf sequences */
 	public String[] name;
-	
+
 	/** Indel model parameters (in the order: R, lambda, mu) */
 	public double[] indelParams;
 	/** Substitution model parameters, as given by the substitution plugin */
 	public double[] substParams;
-	
+
 	/** Log-likelihood of the state */
 	public double logLike;
-	
-	
+
+
 	/** Cache to store previously calculated leaf alignment by {@link #getLeafAlign()} */
 	private String[] leafAlign;
 	/** Cache to store previously calculated full alignment by {@link #getFullAlign()} */
 	private String[] fullAlign;
 	/** Cache to store previously calculated newick tree string by {@link #getNewickString()} */
 	private String newickString;
-	
+
 	/**
 	 * Constructs a new {@link State} object, filling the given parameter and
 	 * pre-allocating arrays (first dimensions only). Does not create parameter arrays.
 	 * 
-	 * @param nn  number of nodes total (including leaves)
-	 * @param initialize if true, initializes the variables of this object.
+	 * @param nn  number of nodes total (including leaves) , initialize if true. initializes the variables of this object.
 	 */
 	public State(int nn) {
 		this.nn = nn;
 		nl = (nn+1)/2;
-		
+
 		left = new int[nn];
 		right = new int[nn];
 		parent = new int[nn];
 		edgeLen = new double[nn];
-		
+
 		align = new int[nn][];
 		felsen = new double[nn][][];
 		seq = new String[nn];
 		name = new String[nl];
 	}
-	
+
 	/**
 	 * Returns string representation of alignment between <i>node</i> and its parent. Uses
 	 * characters in {@link #seq} to construct the strings, - is printed for gaps.
@@ -112,7 +111,7 @@ public class State {
 		StringBuilder par = new StringBuilder();	// parent
 		StringBuilder des = new StringBuilder();	// descendant
 		String s = seq[node], ps = seq[parent[node]];
-		
+
 		int[] al = align[node];
 		int len = al.length, plen = align[parent[node]].length, i = 0, pi = 0, ali;
 		while(i < len || pi < plen) {
@@ -130,14 +129,14 @@ public class State {
 				pi++; i++;
 			}
 		}
-		
+
 		return new String[] { par.toString(), des.toString() };
 	}
-	
+
 	private int normPos(int pos) {
 		return pos < 0 ? -pos-1 : pos;
 	}
-	
+
 	/**
 	 * Returns the multiple alignment of all leaf sequences.
 	 */
@@ -145,13 +144,13 @@ public class State {
 		if(leafAlign == null) {
 			Aligner aligner = new Aligner(true);
 			leafAlign = aligner.createAlign();
-			
+
 			if(Utils.DEBUG)
 				checkConsistency();
 		}
 		return leafAlign;
 	}
-	
+
 	/**
 	 * Returns the multiple alignment of all sequences, including ancestors.
 	 */
@@ -165,7 +164,7 @@ public class State {
 		}
 		return fullAlign;
 	}
-	
+
 	/**
 	 * Returns the Newick string representation of the tree
 	 */
@@ -177,7 +176,7 @@ public class State {
 		}
 		return newickString;
 	}	
-	
+
 	/** Recursively prints newick representation of subtree into sb */
 	private void newick(int node, StringBuilder sb) {
 		if(node < nl) {		// leaf
@@ -197,34 +196,34 @@ public class State {
 			sb.append(edgeLen[node]);
 		}
 	}
-	
+
 	private class Aligner {
-		
+
 		boolean fullAlign;
-		
+
 		char[] column, allGap;
 		/** current position in each alignment (indexed by node) */
 		int[] pos;
-		
+
 		StringBuilder[] rows;
-		
+
 		public Aligner(boolean leafOnly) {
 			fullAlign = !leafOnly;
-			
+
 			int len = leafOnly ? nl : nn;
 			allGap = new char[len];
 			Arrays.fill(allGap, '-');
-			
+
 			rows = new StringBuilder[len];
 			for(int i = 0; i < len; i++)
 				rows[i] = new StringBuilder();
-			
+
 			pos = new int[nn];
 		}
-		
+
 		String[] createAlign() {
 			int l = left[root], r = right[root], len = align[root].length, i;
-			
+
 			for(i = 0; i < len; i++) {
 				before(l, i);
 				before(r, i);
@@ -238,17 +237,17 @@ public class State {
 			}
 			before(l, i);
 			before(r, i);
-			
+
 			String[] out = new String[rows.length];
 			for(i = 0; i < out.length; i++)
 				out[i] = rows[i].toString();
 			return out;
 		}
-		
+
 		private void newCol() {
 			column = Utils.copyOf(allGap);
 		}
-		
+
 		private void outCol() {
 			if(column == null)
 				return;
@@ -262,7 +261,7 @@ public class State {
 			int al[] = align[node];
 			int i = pos[node], len = al.length, ali = 0, l = left[node], r = right[node];
 			boolean leaf = node < nl;
-			
+
 			while(i < len && (ali=al[i]) < 0 && -ali-1 == pi) {
 				if(!leaf) {
 					before(l, i);
@@ -287,12 +286,12 @@ public class State {
 			}
 			pos[node] = i;
 		}
-		
+
 		private void at(int node, int pi) {
 			int al[] = align[node];
 			int i = pos[node], len = al.length, ali = 0;
 			boolean leaf = node < nl;
-			
+
 			if(i < len && (ali=al[i]) >= 0 && ali == pi) {
 				if(leaf || fullAlign) {
 					if(column == null)
@@ -308,7 +307,7 @@ public class State {
 			pos[node] = i;
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		State s = new State(5);
 		s.test();
@@ -356,7 +355,7 @@ public class State {
 		checkSeqs();
 		checkAligns();
 	}
-	
+
 	private void checkSeqs() {
 		// pairwise
 		for(int i = 0; i < nn; i++) {
@@ -366,15 +365,15 @@ public class State {
 				checkSeq(al[1], i, "PairA"+i);
 			}
 		}
-		
+
 		// leaf align
 		for(int i = 0; i < leafAlign.length; i++)
 			checkSeq(leafAlign[i], i, "Leaf"+i);
-		
+
 		// full align
 		for(int i = 0; i < fullAlign.length; i++)
 			checkSeq(fullAlign[i], i, "Full"+i);
-		
+
 	}
 
 	private void checkSeq(String line, int node, String at) {
@@ -392,7 +391,7 @@ public class State {
 		if(p != s.length())
 			throw new Error("Alignment inconsistency id2 at: "+at);
 	}
-	
+
 	private void checkAligns() {
 		// full to pairwise
 		for(int i = 0; i < nn; i++) {
@@ -405,7 +404,7 @@ public class State {
 		// full to leaf
 		checkAlign(Arrays.copyOf(fullAlign, leafAlign.length), leafAlign, "FullLeaf");
 	}
-	
+
 	private void checkAlign(String[] longer, String[] shorter, String at) {
 		// remove gaps
 		StringBuilder[] sb = new StringBuilder[longer.length];
@@ -424,7 +423,7 @@ public class State {
 		String[] longNoGaps = new String[longer.length];
 		for(i = 0; i < longer.length; i++)
 			longNoGaps[i] = sb[i].toString();
-		
+
 		// check equality
 		for(i = 0; i < longNoGaps.length; i++)
 			if(!longNoGaps[i].equals(shorter[i]))
@@ -436,6 +435,5 @@ public class State {
 		for(String x : al)
 			System.out.println(x);
 	}
-	
-}
 
+}

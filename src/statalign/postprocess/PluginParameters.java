@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class PluginParameters {
-	
+
 	Hashtable<String, String> parameters = new Hashtable<String, String>();
-	
+
 	public PluginParameters()
 	{
-		
+
 	}
-		
+
 	public PluginParameters(ArrayList<String> args)
 	{
 		for(int i = 0 ; i < args.size() ; i++)
@@ -28,7 +28,7 @@ public class PluginParameters {
 			}
 		}
 	}
-	
+
 	public String getParameter(String name)
 	{
 		if(parameters.containsKey(name))
@@ -37,12 +37,12 @@ public class PluginParameters {
 		}
 		return null;
 	}
-	
+
 	public void setParameter(String name, String value)
 	{
 		parameters.put(name, value);
 	}
-	
+
 	public void removeParameter(String name)
 	{
 		if(parameters.containsKey(name))

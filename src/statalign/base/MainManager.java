@@ -31,7 +31,7 @@ public class MainManager {
 	 * Reference to all input data required to run StatAlign
 	 */
 	public InputData inputData = new InputData();
-	
+
 	/**
 	 * This is the postprocess-manager of our program, which handles the
 	 * postprocesses applied on the MCMC run.
@@ -109,7 +109,7 @@ public class MainManager {
 
 			thread = new MainThread(this);
 			thread.start();
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -122,7 +122,7 @@ public class MainManager {
 		if (frame != null) {
 			frame.statusText.setText(" Generating initial tree and alignment...");
 		}
-		
+
 		// Sets up the logging for the master process.
 		if (MPIUtils.isMaster(rank)) {
 			MPIUtils.println(rank, "Setting up log files for the plugins:");
@@ -142,10 +142,10 @@ public class MainManager {
 			}
 			MPIUtils.println(rank, "Generating initial tree and alignment...");
 		}
-		
+
 		// Determines the heat of the chain.
 		double heat = 1.0d / (1.0d + ((double) rank / noOfProcesses));;
-		
+
 		try {
 			inputData.title = new File(fullPath).getName();
 			Tree tree = new Tree(inputData.seqs.sequences.toArray(new String[inputData.seqs.sequences
@@ -179,7 +179,10 @@ public class MainManager {
 			System.out.println("Ready.");
 
 		} catch (StoppedException stex) {
-			stex.printStackTrace(System.err);
+			//stex.printStackTrace(System.err);
+			finished();
+			frame.statusText.setText(frame.IDLE_STATUS_MESSAGE);
+			//System.out.println("IS THE EXCEPTION HERE?");
 		}
 	}
 
@@ -196,7 +199,7 @@ public class MainManager {
 			});
 		}
 	}
-	
+
 	public void deactivateRNA() {
 		frame.deactivateRNA();
 	}

@@ -1,5 +1,6 @@
 package com.ppfold.algo;
 
+import java.util.List;
 
 /**
  * Asynchronous job execution, blocking class. Jobs are executed sequentially.
@@ -37,7 +38,7 @@ public class AsynchronousJobExecutorBlocking extends AsynchronousJobExecutor {
 			listener.jobFinished(res);
 		}
 	}
-	
+
 	@Override
 	public void startExecution(PhyloJobFuzzy job, JobListener listener) {
 		if (job.isType() == false) {
@@ -57,11 +58,11 @@ public class AsynchronousJobExecutorBlocking extends AsynchronousJobExecutor {
 	public void shutDown(){
 		//Nothing happens here as we only have one thread. 
 	}
-	
+
 	public boolean isTerminated() {
 		return false;
 	}
-	
+
 	// @Override
 	// public AsynchronousJobExecutor createJobExecutor(AlgoParameters param) {
 	// //We have no state

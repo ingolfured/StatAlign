@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * @author Michael
  */
 public class RNAFoldingTools {
-	
+
     public static void main(String[] args) {
     	ArrayList<String> sequences = new ArrayList<String>();
     	sequences.add("ACT--CC-");
@@ -830,13 +830,13 @@ public class RNAFoldingTools {
 	    			countUsed[i] = true;
 	    			n++;
 	    		}
-	    		
+
 	    		if(n == refLength)
 	    		{
 	    			break;
 	    		}
 	    	}
-	    	
+
 	    	if(n == refLength)
 	    	{
 	    		break;
@@ -888,9 +888,9 @@ public class RNAFoldingTools {
     	try
     	{
 	    	 BufferedReader buffer = new BufferedReader(new FileReader(ctFile));
-	
+
 	         String textline = null;
-	
+
 	         int [] pairedSites = null;
 	         while ((textline = buffer.readLine()) != null) {
 	             String[] split = textline.trim().split("(\\s)+");
@@ -902,9 +902,9 @@ public class RNAFoldingTools {
 	                 pairedSites[Integer.parseInt(split2[0])-1] =  Integer.parseInt(split2[4]);
 	             }
 	         }
-	
+
 	         buffer.close();
-	         
+
 	         return pairedSites;
     	}
     	catch(IOException ex)
@@ -952,7 +952,7 @@ public class RNAFoldingTools {
 				}
 				textline = buffer.readLine();
 			}
-			
+
 			buffer.close();
 
 		}
@@ -960,9 +960,9 @@ public class RNAFoldingTools {
 		{
 			ex.printStackTrace();
 		}
-		
+
 		return bpMatrix;
-		
+
     }
     
     public static double [][] getDoubleMatrix(float [][] matrix)
@@ -1032,7 +1032,7 @@ public class RNAFoldingTools {
             ex.printStackTrace();
         }
     }
-	
+
 	public static double calculatePPfoldReliabilityScore(int [] pairedSites, double [][] basePairProb)
 	{
 		double [] singleBaseProb = RNAFoldingTools.getSingleBaseProb(basePairProb);
@@ -1051,7 +1051,7 @@ public class RNAFoldingTools {
 
 		return ppfoldReliablityScore/((double)pairedSites.length);
 	}
-	
+
 	public static double calculatePairsOnlyReliabilityScore(int [] pairedSites, double [][] basePairProb)
 	{
 		double ppfoldReliablityScore = 0;
@@ -1064,7 +1064,7 @@ public class RNAFoldingTools {
 				pairs++;
 			}
 		}
-		
+
 		if(pairs == 0)
 		{
 			return 1;
@@ -1072,7 +1072,7 @@ public class RNAFoldingTools {
 
 		return ppfoldReliablityScore/pairs;
 	}
-	
+
 	public static double calculatePairsOnlyReliabilityScore(int [] pairedSites, double [][] basePairProb, ArrayList<Double> weights)
 	{
 		double ppfoldReliablityScore = 0;
@@ -1088,7 +1088,7 @@ public class RNAFoldingTools {
 				pairs++;
 			}
 		}
-		
+
 		if(pairs == 0)
 		{
 			return 1;
@@ -1096,7 +1096,7 @@ public class RNAFoldingTools {
 
 		return ppfoldReliablityScore/pairs;
 	}
-	
+
 	public static void writeToFile(File f, String s, boolean append)
 	{
 		try
@@ -1110,7 +1110,7 @@ public class RNAFoldingTools {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public static void saveCtFile(File outFile, int [] pairedSites, String header, String sequence)
 	{
 		try
@@ -1128,7 +1128,7 @@ public class RNAFoldingTools {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public static void saveDotBracketFile(File outFile, int [] pairedSites, String header, String sequence)
 	{
 		try
@@ -1144,7 +1144,7 @@ public class RNAFoldingTools {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public static boolean isRNAalignment(ArrayList<String> sequences)
 	{
 		double countRNA = 0;
@@ -1178,7 +1178,7 @@ public class RNAFoldingTools {
 				}
 			}			
 		}
-		
+
 		double ratio = countRNA / countNonRNA;		
 		return ratio > 0.5;
 	}

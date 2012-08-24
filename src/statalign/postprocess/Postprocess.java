@@ -33,7 +33,7 @@ public abstract class Postprocess {
 
 	/** TODO: REMOVE!!!!!!!!!! */
 	public Mcmc mcmc;
-	
+
     /**
      * True, if the plugin implements the {@link Postprocess#getToolBarItems()} function.
      * Defaults to false.
@@ -46,7 +46,7 @@ public abstract class Postprocess {
 	 * start and to show runtime information afterwards)
 	 */
 	public boolean selected = true;
-	
+
 	/**
 	 * True if it <u>can</u> generate a GUI. Not used in the current version, it is
 	 * for further development if one wants to switch on and off the GUIs.
@@ -63,7 +63,7 @@ public abstract class Postprocess {
 	 * on it or because it is selected
 	 */
 	public boolean active = false;
-	
+
 	/**
 	 * True if this class <u>can</u> generate an output
 	 */
@@ -73,40 +73,40 @@ public abstract class Postprocess {
 	 * True if this class <u>can</u> generate a postprocess file
 	 */
 	public boolean postprocessable = false;
-	
+
 	/**
 	 * True if it writes into the log file
 	 */
 	public boolean sampling;
-	
+
 	/**
 	 * True if it writes a postprocess file
 	 */
 	public boolean postprocessWrite;
-	
+
 	/**
 	 * True if it should show only when running an RNA/DNA file
 	 */
 	public boolean rnaAssociated;
-	
-	
-	
+
+
+
 	/**
 	 * This string tells the alignment type in which alignment must be presented
 	 */
 	public String alignmentType;
-	
+
 	/**
 	 * This is the logfile writer that is written during the running and gets information from 
 	 * all postprocesses.
 	 */
 	public FileWriter file;
-	
+
 	/**
 	 * This is the output file writer, that is written by a specific postprocess.
 	 */
 	public FileWriter outputFile;
-	
+
 
 	/**
 	 * Same set of parameters visible to all plugins.
@@ -120,34 +120,34 @@ public abstract class Postprocess {
 	 */
 	public void init() {
 	}
-	
+
 
 	/**
 	 * 
 	 * @return Returns with the name that will appear on the label of the tabulated panel.
 	 */
 	public abstract String getTabName();
-		
+
 	/**
 	 * 
 	 * @return Returns with the icon that will appear on the label of the tabulated panel.
 	 */
 	public abstract Icon getIcon();
-		
+
 	/**
 	 * 
 	 * @return Returns with the panel of the GUI
 	 */
 	public abstract JPanel getJPanel();
 	//public abstract Component getComponent();
-	
+
 	/**
 	 * Reinitializes panel to accommodate a new GUI
 	 */
 	public void reloadPanel() {
 	}
-	
-	
+
+
 	/**
 	 * Returns with the tip information (shown when the mouse cursor is moved over the 
 	 * label of the tabulated panel)
@@ -175,7 +175,7 @@ public abstract class Postprocess {
 	public String getFileExtension() {
 		return null;
 	}
-	
+
 	/**
 	 * Override this and return an array of full-qualified class names of the plugins
 	 * this plugin depends on.
@@ -183,7 +183,7 @@ public abstract class Postprocess {
 	public String[] getDependences() {
 		return null;
 	}
-	
+
 	/**
 	 * Override this to get access to instances of the plugins your plugin depends on.
 	 * 
@@ -194,14 +194,14 @@ public abstract class Postprocess {
 	 */
 	public void refToDependences(Postprocess[] plugins) {
 	}
-	
+
 	/**
 	 * Called before MCMC start. This is the first time you can use PostprocessManager.mcmc
 	 * to access internal data structure
 	 */
 	public void beforeFirstSample(InputData inputData) {
 	}
-	
+
 	/**
 	 * Called after a new step is made. A typical run of MCMC takes hundred thousands of
 	 * steps, override this function only if it takes a negligible amount of time and does not
@@ -209,7 +209,7 @@ public abstract class Postprocess {
 	 */
 	public void newStep(McmcStep mcmcStep) {
 	}
-	
+
 	/**
 	 * Allows peeking into the Markov chain before actual sampling begins. Frequency is
 	 * determined by the MCMC sampling parameter set by the user, just like for
@@ -220,7 +220,7 @@ public abstract class Postprocess {
 	 */
 	public void newPeek(State state) {
 	}
-	
+
 	/**
 	 * 
 	 * This function is called when we sample from the Markov chain. Frequency is determined
@@ -233,14 +233,14 @@ public abstract class Postprocess {
 	 */
 	public void newSample(State state, int no, int total) {
 	}
-	
+
 	/**
 	 * This function switches on or off the sampling mode.
 	 * @param enabled Set it true if you need samples.
 	 */
 	public abstract void setSampling(boolean enabled);
-		
-	
+
+
 	/**
 	 * This function is called after the MCMC runs.
 	 */

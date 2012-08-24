@@ -46,7 +46,7 @@ public class StoppableThread extends Thread {
 	void stoppable() throws StoppedException {
 		pausable();
 		if(stopping)
-			throw new StoppedException();
+			throw new StoppedException("Cannot stop during the burn-in procedure!");
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class StoppableThread extends Thread {
 	 * 
 	 * Compare deprecated "hard" stop: Thread.stop()
 	 */
-	public void stopSoft() {
+	public void stopSoft() throws StoppedException {
 		stopping = true;
 		resumeSoft();
 	}

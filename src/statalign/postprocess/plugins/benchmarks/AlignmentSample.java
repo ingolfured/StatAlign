@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public 
 
 class AlignmentSample implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -34,7 +34,7 @@ class AlignmentSample implements Serializable {
 		}
 		return ret;
 	}
-	
+
 
 	public static AlignmentSample loadAlignments(File file) {
 
@@ -53,7 +53,7 @@ class AlignmentSample implements Serializable {
 				if (textline.startsWith("%")) {
 					if(name == null)
 					{
-						
+
 					}
 					else
 					if (name.equalsIgnoreCase("%reference")) {
@@ -66,7 +66,7 @@ class AlignmentSample implements Serializable {
 					else
 						if(name.equalsIgnoreCase("%posteriors"))
 						{
-							
+
 						}
 						else {
 							Alignment alignment = new Alignment();
@@ -75,7 +75,7 @@ class AlignmentSample implements Serializable {
 							sample.samples.add(alignment);
 						}
 
-					
+
 						name = textline;
 						if("%posteriors".equals(name))
 						{
@@ -83,7 +83,7 @@ class AlignmentSample implements Serializable {
 							{
 								sample.posteriors.add(new Double(textline));
 							}
-							
+
 							if(textline != null && textline.startsWith("%"))
 							{
 								name = textline;
@@ -98,7 +98,7 @@ class AlignmentSample implements Serializable {
 						{
 							parseAlignmentString(alignmentString, sequences, sequenceNames);
 							alignmentString = "";
-	
+
 							sequences = new ArrayList<String>();
 							sequenceNames = new ArrayList<String>();
 						}
@@ -106,11 +106,11 @@ class AlignmentSample implements Serializable {
 					alignmentString += textline + "\n";
 				}
 			}
-			
+
 
 			if(name == null)
 			{
-				
+
 			}
 			else
 			if (name.equalsIgnoreCase("%reference")) {
@@ -123,7 +123,7 @@ class AlignmentSample implements Serializable {
 			else
 			if(name.equalsIgnoreCase("%posteriors"))
 			{
-				
+
 			}
 			else {
 				Alignment alignment = new Alignment();
@@ -136,7 +136,7 @@ class AlignmentSample implements Serializable {
 			{
 				parseAlignmentString(alignmentString, sequences, sequenceNames);
 				alignmentString = "";
-				
+
 			}
 			buffer.close();
 		} catch (IOException ex) {
@@ -145,7 +145,7 @@ class AlignmentSample implements Serializable {
 
 		return sample;
 	}
-	
+
 	public static void parseAlignmentString(String alignmentString, ArrayList<String> sequences,  ArrayList<String> sequenceNames)
 	{
 
@@ -175,14 +175,14 @@ class AlignmentSample implements Serializable {
 			sequences.add(seq);
 		}
 	}
-	
+
 
 	static class Alignment implements Serializable {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = -4881397407402273139L;
-		
+
 		ArrayList<String> sequences = new ArrayList<String>();
 		ArrayList<String> sequenceNames = new ArrayList<String>();
 

@@ -73,7 +73,7 @@ public class AlignColumn {
 		parent = null;
 		orphan = true;
 	}
-	
+
 	/**
 	 * It creates a new AlignColumn, chains it to the next column (namely, it is used to
 	 * generate a new ancestral sequence built in a traceback phase of a dynamic programming).
@@ -181,7 +181,7 @@ public class AlignColumn {
 	if(owner.right.selected && right == null){
 	    return false;
 	}
-	
+
 	return x;
  }
  

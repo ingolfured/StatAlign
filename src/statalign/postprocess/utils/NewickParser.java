@@ -81,7 +81,7 @@ public class NewickParser {
 		bufferedChar = -1;
 		lastRow = lastCol = row = col = 0;
 	}
-	
+
 	public void close() throws NewickParserException {
 		try {
 			reader.close();
@@ -90,7 +90,7 @@ public class NewickParser {
 			throw new NewickParserException(e);
 		}
 	}
-	
+
 	public TreeNode parse() throws NewickParserException {
 		Token token = null;
 		ParserState state = ParserState.TREE_START;
@@ -160,7 +160,7 @@ public class NewickParser {
 
 				case BRANCH_LEAF:
 					token = parseNodeName(node, token, names);
-					
+
 					switch (token.getType()) {
 						case COMMA: state = ParserState.BRANCH_ADD; break;
 						case PAR_CLOSE: state = ParserState.BRANCH_CLOSE; break;
@@ -198,7 +198,7 @@ public class NewickParser {
 				case TREE_END:
 					if (level != 0)
 						exception("Unexpected end");
-					
+
 //					tree.setRoot(root);
 
 					token = nextTokenNoSpace();
@@ -219,7 +219,7 @@ public class NewickParser {
 				|| token.getType() == TokenType.NUMBER) {
 			if (names.contains(token.getText()))
 				exception("Node name already defined");
-			
+
 			node.name = getDecodedTaxaName(token.getText());
 			names.add(token.getText());
 			token = nextToken();
@@ -366,7 +366,7 @@ public class NewickParser {
 	private boolean isWhitespace(char ch) {
 		return Character.isWhitespace(ch);
 	}
-	
+
 	private boolean isSpecialChar(int ch) {
 		return ch == '(' || ch == ')' || ch == ',' || ch == ':' || ch == ';';
 	}
@@ -397,7 +397,6 @@ public class NewickParser {
      * {@link #getEncodedTaxaName(String)}. It does not reverse the spaces however.
      * TODO: make it deal with parenthesis.
      * @param encodedTaxa
-     * @return
      */
     public static String getDecodedTaxaName(String encodedTaxa) {
         String s = null;

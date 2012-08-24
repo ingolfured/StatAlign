@@ -25,14 +25,14 @@ import statalign.postprocess.utils.EntropyContainer;
 public class Entropy extends statalign.postprocess.Postprocess{
 
 	public String title;
-	
+
 	JPanel pan = new JPanel(new BorderLayout());
 	public ArrayList<EntropyContainer> entropyList;
 	PPFold ppFold;
-	
+
 	public static boolean allowed = false;
-	
-	
+
+
 	private EntropyGUI gui;
 
 	/**
@@ -50,7 +50,7 @@ public class Entropy extends statalign.postprocess.Postprocess{
 		sampling = true;
 		postprocessWrite = true;
 		rnaAssociated = true;
-		
+
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class Entropy extends statalign.postprocess.Postprocess{
 	public JPanel getJPanel(){
 		return pan;
 	}
-	
+
 	@Override
 	public void reloadPanel() {
 		pan = new JPanel(new BorderLayout());
@@ -97,17 +97,17 @@ public class Entropy extends statalign.postprocess.Postprocess{
 	public double getTabOrder() {
 		return 10.0d;
 	}
-	
+
 	@Override
 	public String getFileExtension() {
 		return "entr";
 	}
-	
+
 	@Override
 	public String[] getDependences() {
 		return new String[] { "statalign.postprocess.plugins.PPFold" };
 	}
-	
+
 	@Override
 	public void refToDependences(Postprocess[] plugins) {
 		ppFold = (PPFold)plugins[0];
@@ -120,21 +120,21 @@ public class Entropy extends statalign.postprocess.Postprocess{
 	public void newSample(State state, int no, int total) {
 		if(sampling){
 			if(ppFold == null) {return;}
-			
+
 			//System.out.println("Observed Entropy Object: " + ppFold.entropyObs);
 			//System.out.println(entropyList);
 			//entropyList.add(new EntropyContainer(ppFold.fuzzyResultObs.entropyVal, ppFold.fuzzyResultExp.entropyVal));
-			
+
 			if(allowed) {
 				//System.out.println("Observed Entropy Object: " + ppFold.entropyObs);
 				entropyList.add(new EntropyContainer(ppFold.entropyObs, ppFold.entropyExp, ppFold.entropySample));
-				
+
 			}
-			
+
 			if(show) {
 				gui.repaint();
 			}
-			
+
 		}
 		else{
 			//System.out.println("Not sampling loglikelihood!!!");
@@ -146,23 +146,23 @@ public class Entropy extends statalign.postprocess.Postprocess{
 	 */
 	@Override
 	public void beforeFirstSample(InputData input) {
-		
+
 		entropyList = new ArrayList<EntropyContainer>();
-		
+
 		if(show) {
 			title = input.title;
 			pan.removeAll();
 			gui = new EntropyGUI(title, this);
-			
+
 			JScrollPane scroll = new JScrollPane();
 			scroll.setViewportView(gui);
-			
+
 			pan.add(scroll);
 			System.out.println("Entropy parent: " + pan.getParent());
 			pan.getParent().getParent().getParent().validate();
 		}
-		
-		
+
+
 	}
 
 	/**
