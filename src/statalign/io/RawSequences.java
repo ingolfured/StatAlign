@@ -27,9 +27,10 @@ public class RawSequences {
 	 */
 	public String alphabet;
 
+	
 	public boolean isRNA;
-
-
+	
+	
 	public RawSequences() {
 		sequences = new ArrayList<String>();
 		seqNames = new ArrayList<String>();
@@ -100,6 +101,7 @@ public class RawSequences {
 		return seqNames.size();
 	}
 
+		
 	/**
 	 * Tells whether or not the the sequences are RNA/DNA. The extra letters denote ambiguous nucleotides.
 	 * @return True if it is RNA, false otherwise

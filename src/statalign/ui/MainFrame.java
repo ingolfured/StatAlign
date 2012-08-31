@@ -533,13 +533,11 @@ public class MainFrame extends JFrame implements ActionListener {
             final String savTit = getTitle();
             setTitle("Stopping...");
             try {
-            	manager.thread.stopSoft();
-            } catch(StoppedException e) {
-            	finished();
-            	statusText.setText(IDLE_STATUS_MESSAGE);
-            	//ErrorMessage.showPane(this, e.getError(), true);
-            }
-            
+				manager.thread.stopSoft();
+			} catch (StoppedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             finished();
             setTitle(savTit);
             setCursor(Cursor.getDefaultCursor());
@@ -554,7 +552,7 @@ public class MainFrame extends JFrame implements ActionListener {
 				manager.inputgui = input.inputgui;
 				manager.inputgui.updateSequences();
 				//System.out.println("SELECTED!!!");
-
+				
 				manager.postProcMan.rnaMode = true;
 				//manager.postProcMan.reload();
    
@@ -566,7 +564,7 @@ public class MainFrame extends JFrame implements ActionListener {
 						tab.addTab(plugin.getTabName(), plugin.getIcon(), plugin.getJPanel(), plugin.getTip());
 						count++;
 					}
-
+					
 					//manager.postProcMan.init();
 				}
         		
@@ -710,7 +708,7 @@ public class MainFrame extends JFrame implements ActionListener {
 					tab.remove(count + 1);
 					count--;
 				}
-
+				
 				count++;		
 			}
     	}
@@ -729,7 +727,4 @@ public class MainFrame extends JFrame implements ActionListener {
         new MainFrame();
     }
 
-
-
-    
 }

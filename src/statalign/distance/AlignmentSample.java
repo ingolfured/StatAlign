@@ -10,7 +10,7 @@ public
 
 class AlignmentSample {
 
-
+	
 
 	Alignment reference = new Alignment();
 	Alignment mpd = new Alignment();

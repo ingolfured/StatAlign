@@ -45,6 +45,7 @@ public class PostprocessManager {
 	 */
 	public static boolean rnaMode = false;
 
+	
 	/**
 	 * This constructor recognizes the plugins
 	 * @param mainManager The MainManager that manages the MCMC run.

@@ -12,15 +12,15 @@ public class AlignmentData implements Serializable
 			sequences.add(seq[i]);
 			names.add(Integer.toString(i));
 		}
-
-
+		
+		
 	}
 	public AlignmentData(){
-
+		
 	}
-
-
-
+	
+	
+	
 	/**
 	 * 
 	 */

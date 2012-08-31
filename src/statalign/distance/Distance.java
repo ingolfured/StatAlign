@@ -54,7 +54,7 @@ public class Distance {
 		return Distance.distance(arListA, arListB);
 
 	}
-
+	
 	/**
 	 * Calculates the distance between two alignments, if the function
 	 * returns 0, the alignments are the same. Higher number means the
@@ -65,6 +65,7 @@ public class Distance {
 	 * @param B		The second alignment	
 	 * @return		Integer between 0 and infinity
 	 */
+
 
 	public static int distance(ArrayList<String>  A, ArrayList<String>  B){
 		ArrayList<String> cloneA = new ArrayList<String>();
@@ -272,6 +273,12 @@ public class Distance {
 		}
 		return deletionUnion.size() + insertionUnion.size();
 	}
+	
+	/**
+	 * 
+	 * The same as {@link #AMA(ArrayList, ArrayList)} but here you can use arrays instead of lists
+	 * 
+	 */
 
 	/**
 	 * 
@@ -284,6 +291,8 @@ public class Distance {
 		ArrayList<String> arListB = new ArrayList <String> (Arrays.asList(B));
 		return Distance.AMA(arListA, arListB);
 	}
+
+
 
 
 	/**
@@ -356,6 +365,8 @@ public class Distance {
 	 * @return	A list of average similarity between all possible pairs of alignments
 	 */
 
+	
+
 	public static ArrayList<Double> spaceAMA(ArrayList<String[]> allAlignments){
 		ArrayList<Double> sum = new ArrayList<Double>(allAlignments.size()+1);
 		//Initialising sum
@@ -371,9 +382,18 @@ public class Distance {
 			}
 		} 
 
+		for(int i = 0; i<allAlignments.size()-1; ++i){
+			for(int j = i+1; j<allAlignments.size(); ++j){
+				String[] first = allAlignments.get(i);
+				String[] second = allAlignments.get(j);
+				sum.set(j-i, sum.get(j-i)+Distance.AMA(first, second));
+			}
+		} 
+
 		for(int i = 0; i<allAlignments.size(); ++i){
 			sum.set(i, sum.get(i)/(allAlignments.size() - i  ) );
 		}
 		return sum;
 	}
 }
+

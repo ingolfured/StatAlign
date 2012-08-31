@@ -182,7 +182,7 @@ public class Mcmc extends Stoppable {
 						postprocMan.newPeek();
 					}
 				}
-
+		
 				//every 50 steps, add the current loglikelihood to a list
 				// and check if we find a major decline in that list 
 				if(AutomateParameters.shouldAutomateBurnIn() && i % 50 == 0){

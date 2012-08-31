@@ -16,38 +16,38 @@ import statalign.postprocess.utils.RNAFoldingTools;
 
 
 public class AutomateParameters {
-
+	
 
 
 
 	private static boolean automateSamplingRate = true;
 	private static boolean automateNumberOfSamplesToTake = false;
 	private static boolean automateBurnIn = true;
-
+	
 	//steprate
 	final static double decline = 0.0001;
 	final static int right = 10;
 	final static int wrong = 2;
 	final static int total = right + wrong;
 	final static double errorForTheAVG = 0.99;
-
+	
 	//stopsampling
 	final static double PERCENT_CONST = 0.999;
-
+	
 	//burn-in
 	final static int DECLINE = 30;
 	final static int NUTR_SIZE = 100;
-
-
+	
+	
 	public static boolean shouldAutomateBurnIn() {
 		return automateBurnIn;
 	}
-
+	
 	public static void setAutomateBurnIn(boolean set) {
 		automateBurnIn = set;
 	}
 
-
+	
 	public static boolean shouldAutomateStepRate() {
 		return automateSamplingRate;
 	}
@@ -55,7 +55,7 @@ public class AutomateParameters {
 	public static void setAutomateStepRate(boolean set) {
 		automateSamplingRate = set;
 	}
-
+	
 	public static boolean shouldAutomateNumberOfSamples() {
 		return automateNumberOfSamplesToTake;
 	}
@@ -63,7 +63,7 @@ public class AutomateParameters {
 	public static void setAutomateNumberOfSamples(boolean set) {
 		automateNumberOfSamplesToTake = set;
 	}
-
+	
 	/**
 	 * Looks either for major decline in theSpace or if we get very close to the average line. Then we break.
 	 * 
@@ -88,7 +88,7 @@ public class AutomateParameters {
 		}
 		avg = avg / count;
 
-
+		
 
 		for(int i = 1; i<(der.size()-total); ++i ){
 			double f = theSpace.get(i);
@@ -102,7 +102,7 @@ public class AutomateParameters {
 		}
 		return 50;
 	}
-
+	
 	/**
 	 * If the last element in the distances variable is larger than PERCENT_CONST
 	 * we stop.
@@ -110,7 +110,7 @@ public class AutomateParameters {
 	 * @param distances 	ArrayList of distances between consecutive fuzzyAlignments
 	 * @return 				True if we want to stop, else false
 	 */
-
+	
 	public static boolean shouldStopSampling(ArrayList<Double> distances){
 		if(distances.size() < 2){
 			return false;
@@ -121,7 +121,7 @@ public class AutomateParameters {
 		return false;
 	}
 
-
+	
 	/**
 	 * If the logLikelihood has a major decline, we stop the burnin
 	 * 
@@ -132,10 +132,10 @@ public class AutomateParameters {
 		if(logLikeList.size() < (NUTR_SIZE + DECLINE)){
 			return false;
 		}
-
+		
 		ArrayList <Double> smalllist = new ArrayList<Double>();
 		ArrayList <Double> derlist = new ArrayList<Double>();
-
+		
 		for(int i =logLikeList.size()-NUTR_SIZE - DECLINE; i<logLikeList.size()-NUTR_SIZE; i++){
 			double mean = 0;
 			for(int j =0; j<NUTR_SIZE; j++){
@@ -147,15 +147,15 @@ public class AutomateParameters {
 		for(int i = 0; i<smalllist.size()-1; i++){
 			derlist.add(smalllist.get(i)-smalllist.get(i+1));
 		}
-
+		
 		for(double i : derlist){
 			if(i<0){
 				return false;
 			}
 		}
-
+		
 		return true;
-
+		
 	}
 
 }

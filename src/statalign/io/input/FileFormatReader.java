@@ -54,4 +54,5 @@ public abstract class FileFormatReader {
 	 */
 	public abstract RawSequences read(Reader reader) throws IOException, ExceptionNonFasta;
 
+	
 }

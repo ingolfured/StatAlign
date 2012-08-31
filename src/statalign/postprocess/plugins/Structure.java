@@ -36,7 +36,6 @@ import statalign.postprocess.utils.RNAFoldingTools;
 public class Structure extends statalign.postprocess.Postprocess {
 
 
-
 	public String title;
 	private JPanel pan = new JPanel(new BorderLayout());
 	private StructureGUI gui;

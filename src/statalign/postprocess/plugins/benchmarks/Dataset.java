@@ -19,23 +19,23 @@ import com.ppfold.algo.FuzzyAlignment;
 import com.ppfold.algo.ResultBundle;
 
 public class Dataset implements Serializable {
-
+	
 	public String title;
 	public long randomSeed = 1;
 	public int burnIn = 0;
 	public int mcmcSteps = 0;
 	public int samplingRate = 0;
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3205713573185024480L;
-
+	
 	public File fastaFile;
-
+	
 	public AlignmentData inputAlignment = new AlignmentData();
 	public AlignmentData mpdAlignment = new AlignmentData();
-
+	
 	/*
 	public double reliabilityOnSamplingAndAveraging = -1;
 	public double reliabilityOnReference = -1;
@@ -43,17 +43,17 @@ public class Dataset implements Serializable {
 	public double reliabilityOnEntropyExp = -1;
 	public double reliabilityOnEntropyObs = -1;
 	*/
-
+	
 	public ArrayList<Double> posteriors = new ArrayList<Double>();
 	public double posteriorsAverage = -1;
 	public double mpdVsInputSim = -1;
-
+	
 	public ArrayList<AlignmentData> sampledAlignments = new ArrayList<AlignmentData>();
 	public ArrayList<Double> logLikelihoods = new ArrayList<Double>();
 	public ArrayList<ResultBundle> sampledStructures = new ArrayList<ResultBundle>();	
 	public ArrayList<int[]> pairedSitesProjectedSamples = new ArrayList<int[]>();
 	public ArrayList<int[]> projectPairedSitesOnCumulativeMatrix = new ArrayList<int[]>();
-
+	
 	public ArrayList<FuzzyAlignment> cumulativeFuzzyAlignment = new ArrayList<FuzzyAlignment>();
 	public ArrayList<ResultBundle> cumulativeFuzzyExpResults = new ArrayList<ResultBundle>(); 
 	public ArrayList<ResultBundle> cumulativeFuzzyObsResults = new ArrayList<ResultBundle>();
@@ -67,54 +67,54 @@ public class Dataset implements Serializable {
 	public ResultBundle resultBundleEntropyObs;
 	public ResultBundle resultBundlePPfold;
 	public double pairsOnlyReliabilityEntropyObsPosteriorWeighted = -1;
-
+	
 	public double ppfoldReliabilityScoreSamplingAndAveraging = -1;
 	public double ppfoldReliabilityScoreSamplingAndAveragingWeighted = -1;
 	public double pairsOnlyReliabilityScoreSamplingAndAveragingPosteriorWeighted = -1;
 	public double ppfoldReliabilityMPD = -1;
-
+	
 	public double pairsOnlyReliabilityScoreSamplingAndAveraging = -1;
 	public double pairsOnlyReliabilityScoreSamplingAndAveragingWeighted = -1;
 	public double pairsOnlyReliabilityMPD = -1;
 	public double pairsOnlyMPDPosteriorWeighted = -1;
-
-
+	
+	
 	public int [] pairedSites;
 	public int [] pairedSitesWeighted;	
 	public int [] pairedSitesMPD; // also projected
 	public int [] pairedSitesPPfoldProjected;
-
-
+	
+	
 	public String pairedSitesRefSeq;
 	public String pairedSitesWeightedRefSeq;
-
+	
 
 	public int [] pairedSitesEntropyExp;
 	public int [] pairedSitesEntropyObs;
-
+	
 	//public ArrayList<RNAalifoldResult> rnaAlifoldSamples = new ArrayList<RNAalifoldResult>();
 	public ArrayList<int[]> pairedSitesProjectedRnaAlifoldSamples = new ArrayList<int[]>();
 	//public RNAalifoldResult rnaAlifoldFinal;
 	public int [] pairedSitesRNAalifold;
 	public double ppfoldReliabilityScoreRNAalifold;
 	public double pairsOnlyReliabilityScoreRNAalifold;
-
+	
 	public RNAalifoldResult rnaAlifoldMPD;
 	//public int[] pairedSitesMPDprojected;
-
+	
 	public RNAalifoldResult rnaAlifoldRef;
 	public int[] pairedSitesRNAalifoldMPDProjected;
 	public int[] pairedSitesRNAalifoldRefProjected;
 	//public int [] pairedSitesMPD;
-
+	
 	/*public int [] samplingAndAveragingPairedSites;
 	public int [] refencedPairedSites;
 	public int [] mpdPairedSites;*/
 	public int [] pairedSitesCombined;
 	public double ppfoldReliabilityScoreCombined;
 	public double pairsOnlyReliabilityScoreCombined;
-
-
+	
+	
 	public void saveDatasetResult(File outFile)
 	{
 		try
@@ -128,7 +128,7 @@ public class Dataset implements Serializable {
 			ex.printStackTrace();
 		}
 	}
-
+	
 	public static Dataset loadDatasetResult(File inFile)
 	{
 		try
@@ -148,3 +148,4 @@ public class Dataset implements Serializable {
 		return null;
 	}
 }
+
