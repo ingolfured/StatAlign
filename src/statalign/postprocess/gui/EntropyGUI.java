@@ -31,7 +31,7 @@ public class EntropyGUI extends JPanel {
 	public String title;
 	private Entropy owner;
 
-	private JLabel oe = new JLabel("Observed Entropy");
+	private JLabel oe = new JLabel("Consensus Entropy");
 	private JLabel se = new JLabel("Sample Entropy");
 
 	public static final int OFFSET_X = 50;
@@ -90,7 +90,7 @@ public class EntropyGUI extends JPanel {
 
 
 		// finding the maximum and minimum
-		double maxLik = 50.0, minLik = 0.0;
+		double maxLik = 20.0, minLik = 0.0;
 		for (int i = 0; i < list.size(); i++) {
 			double x = (list.get(i)).obsEntropy;
 			if (x < minLik) {
@@ -103,7 +103,7 @@ public class EntropyGUI extends JPanel {
 		/*if (minLik > -0.1) {
 			maxLik = 0.0;
 		}*/
-		g2.setFont(LLT_FONT);
+		g2.setFont(new Font("SANS_SERIF", Font.BOLD, 16));
 		g2.rotate(Math.PI/2);
 		g2.drawString("Entropy (bits)", maxHeight/2 - 20, -20);
 		g2.rotate(Math.PI*1.5);  

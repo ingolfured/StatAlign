@@ -84,8 +84,8 @@ public class FastaReader extends FileFormatReader {
 							}
 						}
 
-						else
-							throw new ExceptionNonFasta("Input valid sequences!");
+						/*else
+							throw new ExceptionNonFasta("Input valid sequences!");*/
 					}
 				}
 			} else {
@@ -96,8 +96,10 @@ public class FastaReader extends FileFormatReader {
 //		for(int i = 0; i < result.sequences.size(); i++){
 //			System.out.println(">"+result.seqNames.get(i)+"\n"+result.sequences.get(i));
 //		}
-		if(errors > 0)
+		if(errors > 0) {
 			System.out.println("Errors: "+errors);
+			throw new ExceptionNonFasta("Input valid sequences!");
+		}
 //		else
 //			System.out.println("FastaReader: successfully read "+result.sequences.size()+" sequences.");
 
